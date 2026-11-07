@@ -156,10 +156,9 @@ function pintarResultados(criterios) {
 // --- Acciones ---
 
 // En móvil el formulario ocuparía toda la pantalla antes de los resultados, así que se pliega tras un botón.
-// El botón empieza oculto en el HTML: solo aparece si hay JS, y el CSS solo pliega los filtros cuando el botón se ve.
-// En escritorio el CSS oculta el botón y muestra siempre los filtros.
+// Los filtros ya vienen plegados desde el HTML y el CSS (así la página no salta al cargar); aquí solo se abre y cierra.
+// En escritorio el CSS oculta el botón y muestra siempre los filtros; sin JS, sin-js.css hace lo mismo.
 function prepararBotonFiltros() {
-  botonFiltros.hidden = false;
   botonFiltros.addEventListener('click', () => {
     const abierto = botonFiltros.getAttribute('aria-expanded') === 'true';
     botonFiltros.setAttribute('aria-expanded', String(!abierto));

@@ -11,6 +11,8 @@
   <!-- Mientras B no entregue base.css se usa el sustituto provisional (CLAUDE.md, fase 6). -->
   <link rel="stylesheet" href="assets/css/sustitutos/base.css">
   <link rel="stylesheet" href="assets/css/catalogo.css">
+  <!-- Sin JavaScript, el botón «Filtros» no haría nada: esta hoja lo oculta y deja los filtros siempre a la vista. -->
+  <noscript><link rel="stylesheet" href="assets/css/sin-js.css"></noscript>
   <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
   <script type="module" src="assets/js/paginas/catalogo.js"></script>
 </head>
@@ -38,9 +40,9 @@
       <p class="aviso">El catálogo necesita JavaScript para mostrar los aceites. Actívalo en tu navegador para verlos.</p>
     </noscript>
 
-    <!-- En móvil, los filtros se pliegan tras este botón. Va oculto (hidden) y solo lo muestra catalogo.js:
-         sin JavaScript los filtros se ven siempre. -->
-    <button class="filtros-alternar boton boton--secundario" id="alternar-filtros" type="button" aria-expanded="false" aria-controls="formulario-filtros" hidden>Filtros</button>
+    <!-- En móvil, los filtros empiezan plegados tras este botón (catalogo.js lo hace funcionar).
+         Ya vienen plegados en el HTML, no los pliega JS al cargar: así la página no salta (Lighthouse, CLS). -->
+    <button class="filtros-alternar boton boton--secundario" id="alternar-filtros" type="button" aria-expanded="false" aria-controls="formulario-filtros">Filtros</button>
 
     <form class="filtros" id="formulario-filtros" method="get" action="productos.html" aria-label="Filtrar el catálogo">
       <div class="filtros__grupo">

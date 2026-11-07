@@ -125,8 +125,11 @@ a:hover {
   color: var(--color-primario-oscuro);
 }
 
+/* min-height: el pie empieza por debajo de la pantalla. Así, cuando el JS pinta el contenido,
+   el pie no se mueve a la vista del usuario (Lighthouse lo mide como CLS, «saltos» de la página). */
 main {
   display: block;
+  min-height: 100vh;
   max-width: var(--ancho-contenido);
   margin: 0 auto;
   padding: var(--espacio-5) var(--espacio-4) var(--espacio-8);

@@ -11,7 +11,7 @@ import { formatearPrecio, formatearPrecioPorLitro, formatearVolumen } from '../u
 import { anadir } from '../sustitutos/carrito.js';
 import { usuarioActual } from '../sustitutos/sesion.js';
 
-const AVISO_ADMINISTRADOR = 'Has iniciado sesión como administrador: la compra está desactivada';
+const AVISO_ADMINISTRADOR = 'Has iniciado sesión como administrador: la compra está desactivada.';
 
 const principal = document.getElementById('contenido');
 const migaProducto = document.getElementById('miga-producto');

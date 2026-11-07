@@ -285,6 +285,9 @@
 
 .pagina-catalogo {
   display: grid;
+  /* Sin esto, las filas se estirarían para llenar el min-height de <main> y se
+     encogerían al pintar los productos: la página «saltaría» al cargar (CLS). */
+  align-content: start;
   gap: var(--espacio-4);
 }
 
@@ -296,9 +299,9 @@
   width: 100%;
 }
 
-/* En móvil, los filtros se pliegan tras el botón. La regla solo actúa si el botón
-   se ve (no tiene hidden), y eso solo pasa con JS: sin JS, los filtros se ven siempre. */
-.filtros-alternar:not([hidden])[aria-expanded="false"] + .filtros {
+/* En móvil, los filtros se pliegan tras el botón. Sin JS, sin-js.css anula esta regla
+   y los filtros se ven siempre (se carga desde un <noscript> en el <head>). */
+.filtros-alternar[aria-expanded="false"] + .filtros {
   display: none;
 }
 
@@ -739,7 +742,7 @@
   }
 
   /* Misma especificidad que la regla que los pliega en móvil, pero va después: gana. */
-  .filtros-alternar:not([hidden])[aria-expanded] + .filtros {
+  .filtros-alternar[aria-expanded] + .filtros {
     display: grid;
   }
 

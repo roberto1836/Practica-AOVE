@@ -1,0 +1,11 @@
+/* sin-js.css (A): solo se carga cuando el navegador no ejecuta JavaScript (<noscript> en el <head>).
+   Sin JS, el botón «Filtros» no podría abrir nada, así que se oculta y los filtros se muestran siempre.
+   Va después de catalogo.css y con la misma especificidad, así que gana a la regla que los pliega en móvil. */
+
+.filtros-alternar {
+  display: none;
+}
+
+.filtros-alternar[aria-expanded] + .filtros {
+  display: grid;
+}
