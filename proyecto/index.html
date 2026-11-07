@@ -7,6 +7,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Oleum · Aceite de oliva virgen extra</title>
   <meta name="description" content="Tienda online de aceite de oliva virgen extra con denominación de origen: aceites de cosecha temprana, ecológicos, de uso diario y para regalar.">
+  <!-- Mientras B no entregue base.css se usa el sustituto provisional (CLAUDE.md, fase 6). -->
+  <link rel="stylesheet" href="assets/css/sustitutos/base.css">
+  <link rel="stylesheet" href="assets/css/catalogo.css">
   <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
   <script type="module" src="assets/js/paginas/inicio.js"></script>
 </head>
@@ -27,7 +30,7 @@
   </header>
   <!-- cabecera-comun: fin -->
 
-  <main id="contenido">
+  <main id="contenido" class="pagina-inicio">
     <noscript>
       <p class="aviso">Los aceites destacados y las categorías necesitan JavaScript. Actívalo en tu navegador para verlos.</p>
     </noscript>
@@ -35,7 +38,7 @@
     <section class="portada" aria-labelledby="titulo-portada">
       <h1 class="portada__titulo" id="titulo-portada">Oleum, aceite de oliva virgen extra de origen</h1>
       <p class="portada__presentacion">Aceites de oliva virgen extra de distintas variedades y denominaciones de origen, con el productor y la zona de cada uno a la vista.</p>
-      <a class="portada__enlace" href="productos.html">Ver el catálogo completo</a>
+      <a class="portada__enlace boton" href="productos.html">Ver el catálogo completo</a>
     </section>
 
     <section class="destacados" aria-labelledby="titulo-destacados">

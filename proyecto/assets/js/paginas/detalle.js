@@ -42,6 +42,8 @@ function textoExistencias(stock) {
 
 function rellenarFicha(ficha, producto) {
   const volumen = formatearVolumen(producto.formato_ml);
+  // Igual que en la tarjeta: el CSS usa este atributo para pintar «Agotado» en gris y no en verde.
+  ficha.dataset.disponible = producto.stock > 0 ? 'si' : 'no';
   ficha.querySelector('.ficha-producto__nombre').textContent = producto.nombre;
   const imagen = ficha.querySelector('.ficha-producto__imagen');
   ponerImagen(imagen, producto);

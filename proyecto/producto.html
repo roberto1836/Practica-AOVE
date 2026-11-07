@@ -8,6 +8,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Producto · Oleum</title>
   <meta name="description" content="Ficha de un aceite de oliva virgen extra de Oleum: origen, variedad, formato, precio y disponibilidad.">
+  <!-- Mientras B no entregue base.css se usa el sustituto provisional (CLAUDE.md, fase 6). -->
+  <link rel="stylesheet" href="assets/css/sustitutos/base.css">
+  <link rel="stylesheet" href="assets/css/catalogo.css">
   <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
   <script type="module" src="assets/js/paginas/detalle.js"></script>
 </head>
@@ -29,7 +32,7 @@
   </header>
   <!-- cabecera-comun: fin -->
 
-  <main id="contenido">
+  <main id="contenido" class="pagina-producto">
     <nav class="migas" aria-label="Migas de pan">
       <ol class="migas__lista">
         <li class="migas__elemento"><a class="migas__enlace" href="index.html">Inicio</a></li>
@@ -73,7 +76,7 @@
             <button class="formulario-compra__cambiar" type="button" aria-label="Añadir una unidad">+</button>
           </div>
           <p class="formulario-compra__error" id="error-cantidad" aria-live="polite"></p>
-          <button class="formulario-compra__enviar" type="submit">Añadir al carrito</button>
+          <button class="formulario-compra__enviar boton" type="submit">Añadir al carrito</button>
           <p class="formulario-compra__confirmacion" role="status" aria-live="polite"></p>
         </form>
       </article>
@@ -83,7 +86,7 @@
       <section class="no-encontrado" aria-labelledby="titulo-no-encontrado">
         <h1 class="no-encontrado__titulo" id="titulo-no-encontrado">Producto no encontrado</h1>
         <p class="no-encontrado__texto">El aceite que buscas no existe o ya no está a la venta.</p>
-        <a class="no-encontrado__enlace" href="productos.html">Ir al catálogo</a>
+        <a class="no-encontrado__enlace boton" href="productos.html">Ir al catálogo</a>
       </section>
     </template>
   </main>

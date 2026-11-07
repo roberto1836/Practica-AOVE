@@ -30,6 +30,7 @@ const contador = document.getElementById('contador-resultados');
 const mensajeSinResultados = document.getElementById('mensaje-sin-resultados');
 const navegacionPaginas = document.querySelector('.paginacion');
 const listaPaginas = document.getElementById('lista-paginacion');
+const botonFiltros = document.getElementById('alternar-filtros');
 
 let temporizadorEscritura = null;
 
@@ -128,6 +129,8 @@ function pintarFiltrosAplicados(criterios) {
   listaFiltrosAplicados.replaceChildren(...elementos);
   // Una lista vacía con nombre («Filtros aplicados») la anunciaría el lector de pantalla sin motivo.
   listaFiltrosAplicados.hidden = elementos.length === 0;
+  // En móvil los filtros están plegados: el botón dice cuántos hay aplicados para que no se olviden.
+  botonFiltros.textContent = elementos.length === 0 ? 'Filtros' : `Filtros (${elementos.length})`;
 }
 
 function pintarPaginacion(paginacion, criterios) {
@@ -151,6 +154,17 @@ function pintarResultados(criterios) {
 }
 
 // --- Acciones ---
+
+// En móvil el formulario ocuparía toda la pantalla antes de los resultados, así que se pliega tras un botón.
+// El botón empieza oculto en el HTML: solo aparece si hay JS, y el CSS solo pliega los filtros cuando el botón se ve.
+// En escritorio el CSS oculta el botón y muestra siempre los filtros.
+function prepararBotonFiltros() {
+  botonFiltros.hidden = false;
+  botonFiltros.addEventListener('click', () => {
+    const abierto = botonFiltros.getAttribute('aria-expanded') === 'true';
+    botonFiltros.setAttribute('aria-expanded', String(!abierto));
+  });
+}
 
 function aplicarFormulario() {
   clearTimeout(temporizadorEscritura);
@@ -187,6 +201,7 @@ function alEnviarFormulario(evento) {
 
 function iniciar() {
   const criterios = leerCriterios(new URLSearchParams(location.search), contexto);
+  prepararBotonFiltros();
   pintarOpciones();
   rellenarFormulario(criterios);
   const paginacion = pintarResultados(criterios);

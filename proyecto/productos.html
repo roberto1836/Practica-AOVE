@@ -8,6 +8,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Catálogo · Oleum</title>
   <meta name="description" content="Catálogo de aceites de oliva virgen extra de Oleum: busca y filtra por categoría, variedad y precio.">
+  <!-- Mientras B no entregue base.css se usa el sustituto provisional (CLAUDE.md, fase 6). -->
+  <link rel="stylesheet" href="assets/css/sustitutos/base.css">
+  <link rel="stylesheet" href="assets/css/catalogo.css">
   <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
   <script type="module" src="assets/js/paginas/catalogo.js"></script>
 </head>
@@ -28,14 +31,18 @@
   </header>
   <!-- cabecera-comun: fin -->
 
-  <main id="contenido">
+  <main id="contenido" class="pagina-catalogo">
     <h1>Catálogo</h1>
 
     <noscript>
       <p class="aviso">El catálogo necesita JavaScript para mostrar los aceites. Actívalo en tu navegador para verlos.</p>
     </noscript>
 
-    <form class="filtros" method="get" action="productos.html" aria-label="Filtrar el catálogo">
+    <!-- En móvil, los filtros se pliegan tras este botón. Va oculto (hidden) y solo lo muestra catalogo.js:
+         sin JavaScript los filtros se ven siempre. -->
+    <button class="filtros-alternar boton boton--secundario" id="alternar-filtros" type="button" aria-expanded="false" aria-controls="formulario-filtros" hidden>Filtros</button>
+
+    <form class="filtros" id="formulario-filtros" method="get" action="productos.html" aria-label="Filtrar el catálogo">
       <div class="filtros__grupo">
         <label class="filtros__etiqueta" for="filtro-busqueda">Buscar por nombre, productor, origen o variedad</label>
         <input class="filtros__campo" type="search" id="filtro-busqueda" name="q">
@@ -78,7 +85,7 @@
       </div>
 
       <div class="filtros__acciones">
-        <button class="filtros__aplicar" type="submit">Aplicar filtros</button>
+        <button class="filtros__aplicar boton boton--secundario" type="submit">Aplicar filtros</button>
         <a class="filtros__limpiar" href="productos.html">Limpiar filtros</a>
       </div>
     </form>
