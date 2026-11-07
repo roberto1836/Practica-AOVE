@@ -1,10 +1,15 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400" role="img">
   <title>Verde Temprano Cornicabra</title>
-  <path d="M178 66 L178 100 C178 120 140 128 140 160 L140 368 Q140 380 152 380 L248 380 Q260 380 260 368 L260 160 C260 128 222 120 222 100 L222 66 Z" fill="#2E3A24"/>
-  <rect x="172" y="60" width="56" height="9" rx="3" fill="#1E1E1C"/>
-  <rect x="174" y="28" width="52" height="36" rx="4" fill="#1E1E1C"/>
-  <rect x="150" y="206" width="100" height="124" rx="4" fill="#6A4A1F"/>
-  <line x1="160" y1="216" x2="240" y2="216" stroke="#FFFDF5" stroke-width="1" stroke-opacity="0.7"/>
-  <line x1="160" y1="320" x2="240" y2="320" stroke="#FFFDF5" stroke-width="1" stroke-opacity="0.7"/>
-  <text x="200" y="272.8" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="13.7" fill="#FFFDF5">Cornicabra</text>
+  <circle cx="200" cy="200" r="160" fill="#6A4A1F" fill-opacity="0.13"/>
+  <ellipse cx="200" cy="372" rx="62.2" ry="7" fill="#000000" fill-opacity="0.1"/>
+  <path d="M181.9 121 L181.9 165.6 C181.9 178.5 149.8 184 149.8 204.7 L149.8 362 Q149.8 372 159.8 372 L240.2 372 Q250.2 372 250.2 362 L250.2 204.7 C250.2 184 218.1 178.5 218.1 165.6 L218.1 121 Z" fill="#2E3A24"/>
+  <rect x="178.7" y="93.1" width="42.6" height="27.9" rx="3" fill="#1E1E1C"/>
+  <rect x="176.5" y="117.7" width="47" height="7" rx="2" fill="#1E1E1C"/>
+  <rect x="157.8" y="240.9" width="84.3" height="106" rx="3" fill="#6A4A1F"/>
+  <g transform="translate(200 303.5)">
+    <g transform="rotate(-55)"><path d="M0 0 Q16.2 -7.1 32.4 0 Q16.2 7.1 0 0 Z" fill="#FFFDF5"/><line x1="3.9" y1="0" x2="26.6" y2="0" stroke="#6A4A1F" stroke-width="1.1" stroke-linecap="round"/></g>
+    <g transform="rotate(-125)"><path d="M0 0 Q16.2 -7.1 32.4 0 Q16.2 7.1 0 0 Z" fill="#FFFDF5"/><line x1="3.9" y1="0" x2="26.6" y2="0" stroke="#6A4A1F" stroke-width="1.1" stroke-linecap="round"/></g>
+    <line x1="0" y1="0" x2="0" y2="7.3" stroke="#FFFDF5" stroke-width="1.9" stroke-linecap="round"/>
+  </g>
+  <rect x="162.9" y="213" width="7" height="145" rx="3.5" fill="#FFFFFF" fill-opacity="0.16"/>
 </svg>

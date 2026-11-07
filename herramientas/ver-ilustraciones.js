@@ -30,9 +30,19 @@ function crearFicha(producto) {
   return elemento;
 }
 
+// La imagen de reserva se muestra como una ficha más para revisarla junto a las demás.
+const FICHA_RESERVA = {
+  id: 0,
+  nombre: 'Imagen de reserva',
+  imagen: 'assets/img/producto-sin-imagen.svg',
+  formato_ml: 750,
+  stock: 1,
+  activo: true
+};
+
 function pintarRejilla() {
   const rejilla = document.getElementById('rejilla');
-  rejilla.append(...productos.map(crearFicha));
+  rejilla.append(...productos.map(crearFicha), crearFicha(FICHA_RESERVA));
   document.getElementById('resumen').textContent = `${productos.length} productos.`;
 }
 

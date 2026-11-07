@@ -21,7 +21,7 @@ export const categorias = [
   {
     id: 4,
     nombre: 'Regalo y degustación',
-    descripcion: 'Latas, estuches y formatos pequeños.'
+    descripcion: 'Estuches, botellines y formatos pequeños para regalar o descubrir variedades.'
   }
 ];
 
@@ -163,14 +163,14 @@ export const productos = [
     categoria_id: 2,
     nombre: 'Eco Coupage Campo Alto',
     productor: 'Almazara Campo Alto',
-    origen: 'Campiña de Córdoba',
+    origen: 'DOP Baena',
     variedad: 'Coupage',
     formato_ml: 750,
     precio: 15.90,
     stock: 25,
     imagen: 'assets/img/productos/eco-coupage-campo-alto.svg',
     activo: true,
-    descripcion: 'Mezcla ecológica de Picual y Hojiblanca de la campiña cordobesa. La Picual aporta cuerpo y la Hojiblanca un punto dulce, con un resultado equilibrado. Un aceite para todo: en crudo, en guisos y en asados.'
+    descripcion: 'Coupage ecológico de Picual y Hojiblanca de la DOP Baena. La Picual aporta cuerpo y la Hojiblanca un punto dulce, con un resultado equilibrado. Un aceite para todo: en crudo, en guisos y en asados.'
   },
 
   // --- Uso diario (categoría 3): de 1000 a 5000 ml ---
@@ -221,14 +221,14 @@ export const productos = [
     categoria_id: 3,
     nombre: 'Garrafa Coupage 5 L',
     productor: 'Almazara Campo Alto',
-    origen: 'Campiña de Córdoba',
+    origen: 'DOP Baena',
     variedad: 'Coupage',
     formato_ml: 5000,
     precio: 39.95,
     stock: 0, // Segundo agotado, en otra categoría, para verlo también en la rejilla de «Uso diario».
     imagen: 'assets/img/productos/garrafa-coupage-5-l.svg',
     activo: true,
-    descripcion: 'Coupage de Picual y Hojiblanca en garrafa de cinco litros. Equilibrado, con un amargor y un picor moderados. Para guisos, frituras y aliños de todos los días.'
+    descripcion: 'Coupage de Picual y Hojiblanca de la DOP Baena en garrafa de cinco litros. Equilibrado, con un amargor y un picor moderados. Para guisos, frituras y aliños de todos los días.'
   },
   {
     id: 15,

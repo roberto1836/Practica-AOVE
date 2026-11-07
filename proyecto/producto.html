@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+<!-- Ficha de producto de Oleum (A): producto.html?id=N.
+     assets/js/paginas/detalle.js pone en <main> la plantilla de la ficha o la de «Producto no encontrado»;
+     como solo se clona una de las dos, la página tiene siempre un único h1. -->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Producto · Oleum</title>
+  <meta name="description" content="Ficha de un aceite de oliva virgen extra de Oleum: origen, variedad, formato, precio y disponibilidad.">
+  <script type="module" src="assets/js/paginas/detalle.js"></script>
+</head>
+<body>
+  <!-- cabecera-comun: inicio (B) -->
+  <!-- Versión provisional de A hasta que B entregue la definitiva. -->
+  <a class="saltar-al-contenido" href="#contenido">Saltar al contenido</a>
+  <header class="cabecera">
+    <a class="cabecera__logo" href="index.html">Oleum</a>
+    <!-- Ningún enlace lleva aria-current: la ficha no es ninguna de las páginas del menú. -->
+    <nav class="cabecera__navegacion" aria-label="Principal">
+      <ul class="menu">
+        <li class="menu__elemento"><a class="menu__enlace" href="index.html">Inicio</a></li>
+        <li class="menu__elemento"><a class="menu__enlace" href="productos.html">Catálogo</a></li>
+        <li class="menu__elemento"><a class="menu__enlace" href="carrito.html">Carrito</a></li>
+        <li class="menu__elemento"><a class="menu__enlace" href="perfil.html">Mi cuenta</a></li>
+      </ul>
+    </nav>
+  </header>
+  <!-- cabecera-comun: fin -->
+
+  <main id="contenido">
+    <nav class="migas" aria-label="Migas de pan">
+      <ol class="migas__lista">
+        <li class="migas__elemento"><a class="migas__enlace" href="index.html">Inicio</a></li>
+        <!-- detalle.js cambiará este href por la URL del catálogo de la que venía el usuario, si la hay (VIS-09). -->
+        <li class="migas__elemento"><a class="migas__enlace" href="productos.html">Catálogo</a></li>
+        <li class="migas__elemento"><span class="migas__actual" id="miga-producto" aria-current="page">Producto</span></li>
+      </ol>
+    </nav>
+
+    <noscript>
+      <p class="aviso">La ficha del producto necesita JavaScript. Actívalo en tu navegador para verla.</p>
+    </noscript>
+
+    <!-- Plantillas: detalle.js clona una de las dos y la rellena con textContent (nunca innerHTML con datos). -->
+    <template id="plantilla-ficha-producto">
+      <article class="ficha-producto">
+        <h1 class="ficha-producto__nombre">Nombre del producto</h1>
+        <!-- Aquí el alt sí describe la imagen (lo completa detalle.js): es la imagen principal de la página. -->
+        <img class="ficha-producto__imagen" src="assets/img/producto-sin-imagen.svg" alt="" width="400" height="400">
+
+        <dl class="ficha-producto__datos">
+          <div class="ficha-producto__dato"><dt>Productor</dt><dd class="ficha-producto__productor"></dd></div>
+          <div class="ficha-producto__dato"><dt>Origen</dt><dd class="ficha-producto__origen"></dd></div>
+          <div class="ficha-producto__dato"><dt>Variedad</dt><dd class="ficha-producto__variedad"></dd></div>
+          <div class="ficha-producto__dato"><dt>Formato</dt><dd class="ficha-producto__formato"></dd></div>
+        </dl>
+
+        <p class="ficha-producto__precio">Precio</p>
+        <p class="ficha-producto__precio-litro">Precio por litro</p>
+        <p class="ficha-producto__disponibilidad">Disponibilidad</p>
+        <p class="ficha-producto__descripcion">Descripción</p>
+
+        <!-- En la Parte 2 este formulario será POST /carrito/items, atendido por un Servlet. -->
+        <form class="formulario-compra" method="post" action="carrito.html">
+          <input type="hidden" name="productoId" value="">
+          <div class="formulario-compra__cantidad">
+            <label class="formulario-compra__etiqueta" for="campo-cantidad">Cantidad</label>
+            <button class="formulario-compra__cambiar" type="button" aria-label="Quitar una unidad">−</button>
+            <!-- detalle.js pondrá max = existencias del producto. -->
+            <input class="formulario-compra__campo" type="number" id="campo-cantidad" name="cantidad" min="1" step="1" value="1" inputmode="numeric" aria-describedby="error-cantidad">
+            <button class="formulario-compra__cambiar" type="button" aria-label="Añadir una unidad">+</button>
+          </div>
+          <p class="formulario-compra__error" id="error-cantidad"></p>
+          <button class="formulario-compra__enviar" type="submit">Añadir al carrito</button>
+          <p class="formulario-compra__confirmacion" role="status" aria-live="polite"></p>
+        </form>
+      </article>
+    </template>
+
+    <template id="plantilla-producto-no-encontrado">
+      <section class="no-encontrado" aria-labelledby="titulo-no-encontrado">
+        <h1 class="no-encontrado__titulo" id="titulo-no-encontrado">Producto no encontrado</h1>
+        <p class="no-encontrado__texto">El aceite que buscas no existe o ya no está a la venta.</p>
+        <a class="no-encontrado__enlace" href="productos.html">Ir al catálogo</a>
+      </section>
+    </template>
+  </main>
+
+  <!-- pie-comun: inicio (B) -->
+  <!-- Versión provisional de A hasta que B entregue la definitiva. -->
+  <footer class="pie">
+    <p class="pie__marca">Oleum · Aceite de oliva virgen extra</p>
+    <p class="pie__aviso">Tienda de prácticas: el pago es simulado y no se realiza ningún cobro.</p>
+    <p class="pie__aviso">Práctica de Arquitectura y Diseño de Sistemas Web y C/S · Universidad de Alcalá (UAH), curso 2026-27.</p>
+  </footer>
+  <!-- pie-comun: fin -->
+</body>
+</html>

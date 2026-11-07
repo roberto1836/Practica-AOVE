@@ -9,8 +9,9 @@ Fuente y licencia de cada imagen del proyecto. Cada miembro del grupo añade aqu
   - Ejecutar desde la raíz del repositorio: `node herramientas/generar-ilustraciones.mjs`.
   - El script está fuera de `proyecto/` porque no se despliega.
 - **Licencia:** uso libre dentro de esta práctica.
-- **Tipografía:** las etiquetas usan fuentes serif del sistema (Georgia o Times New Roman). La fuente no va incrustada en el SVG.
+- **Contenido:** solo formas geométricas (envase, etiqueta con un emblema de dos hojas de olivo, fondo y sombra). No llevan texto ni tipografías.
 
 | Fichero | Fuente | Licencia |
 | --- | --- | --- |
 | `productos/*.svg` (20 ficheros) | Propia, generada por script | Uso libre en la práctica |
+| `producto-sin-imagen.svg` (imagen de reserva) | Propia, generada por el mismo script | Uso libre en la práctica |

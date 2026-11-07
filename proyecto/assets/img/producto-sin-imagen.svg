@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400" role="img">
+  <title>Imagen no disponible</title>
+  <circle cx="200" cy="200" r="160" fill="#9A9C98" fill-opacity="0.13"/>
+  <ellipse cx="200" cy="372" rx="69.7" ry="7" fill="#000000" fill-opacity="0.1"/>
+  <path d="M179.8 91.1 L179.8 141.1 C179.8 155.5 143.8 161.6 143.8 184.8 L143.8 360.8 Q143.8 372 155.1 372 L244.9 372 Q256.2 372 256.2 360.8 L256.2 184.8 C256.2 161.6 220.2 155.5 220.2 141.1 L220.2 91.1 Z" fill="#9A9C98"/>
+  <rect x="176.1" y="59.9" width="47.7" height="31.2" rx="3" fill="#6E706C"/>
+  <rect x="173.7" y="87.4" width="52.6" height="7.8" rx="2" fill="#6E706C"/>
+  <rect x="152.8" y="225.3" width="94.4" height="118.6" rx="3" fill="#C9CAC6"/>
+  <rect x="158.4" y="194.1" width="7.9" height="162.3" rx="3.9" fill="#FFFFFF" fill-opacity="0.16"/>
+</svg>
