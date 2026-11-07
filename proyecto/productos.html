@@ -8,6 +8,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Catálogo · Oleum</title>
   <meta name="description" content="Catálogo de aceites de oliva virgen extra de Oleum: busca y filtra por categoría, variedad y precio.">
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
   <script type="module" src="assets/js/paginas/catalogo.js"></script>
 </head>
 <body>
@@ -63,7 +64,7 @@
           <input class="filtros__campo" type="number" id="filtro-precio-max" name="max" min="0" step="0.01" inputmode="decimal" aria-describedby="error-precio">
         </div>
         <!-- Error de mínimo mayor que máximo (VIS-06): va junto a los campos y no borra lo escrito. -->
-        <p class="filtros__error" id="error-precio"></p>
+        <p class="filtros__error" id="error-precio" aria-live="polite"></p>
       </fieldset>
 
       <div class="filtros__grupo">

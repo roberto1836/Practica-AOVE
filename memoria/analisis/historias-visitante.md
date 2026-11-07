@@ -24,7 +24,7 @@ Como visitante, quiero ver los aceites de la tienda en un listado, para hacerme 
 Como visitante, quiero buscar escribiendo una palabra, para encontrar rápido un aceite que ya conozco.
 
 - La búsqueda encuentra coincidencias en el nombre, el productor, el origen y la variedad.
-- No distingue mayúsculas ni tildes: «jaen» encuentra «Jaén».
+- No distingue mayúsculas ni tildes: «cacerena» encuentra «Cacereña» y «magina» encuentra «Mágina».
 - El texto buscado sigue escrito en el buscador después de buscar.
 - **(error)** Si no hay resultados, aparece un mensaje que lo explica y propone quitar filtros, en lugar de una lista vacía.
 

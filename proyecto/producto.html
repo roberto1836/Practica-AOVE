@@ -8,6 +8,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Producto · Oleum</title>
   <meta name="description" content="Ficha de un aceite de oliva virgen extra de Oleum: origen, variedad, formato, precio y disponibilidad.">
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
   <script type="module" src="assets/js/paginas/detalle.js"></script>
 </head>
 <body>
@@ -71,7 +72,7 @@
             <input class="formulario-compra__campo" type="number" id="campo-cantidad" name="cantidad" min="1" step="1" value="1" inputmode="numeric" aria-describedby="error-cantidad">
             <button class="formulario-compra__cambiar" type="button" aria-label="Añadir una unidad">+</button>
           </div>
-          <p class="formulario-compra__error" id="error-cantidad"></p>
+          <p class="formulario-compra__error" id="error-cantidad" aria-live="polite"></p>
           <button class="formulario-compra__enviar" type="submit">Añadir al carrito</button>
           <p class="formulario-compra__confirmacion" role="status" aria-live="polite"></p>
         </form>

@@ -15,3 +15,7 @@ Fuente y licencia de cada imagen del proyecto. Cada miembro del grupo añade aqu
 | --- | --- | --- |
 | `productos/*.svg` (20 ficheros) | Propia, generada por script | Uso libre en la práctica |
 | `producto-sin-imagen.svg` (imagen de reserva) | Propia, generada por el mismo script | Uso libre en la práctica |
+
+## Icono del sitio (`favicon.svg`)
+
+- **Autoría:** propio del grupo (A, Noe), dibujado a mano en SVG con el mismo emblema de hojas de olivo que las etiquetas de los productos.
