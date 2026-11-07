@@ -9,7 +9,7 @@ La Parte A se ha probado en tres niveles: pruebas automáticas de la lógica, pr
 | HTML | Validador del W3C (validator.w3.org/nu) | 0 errores y 0 avisos en las 3 páginas |
 | CSS | Validador CSS del W3C (jigsaw.w3.org) | 0 errores; avisos justificados abajo |
 | Accesibilidad, buenas prácticas y SEO | Lighthouse 12, móvil y escritorio | 100 en las tres categorías y en las 3 páginas |
-| Contraste | Cálculo WCAG 2.1 de cada par de colores | Todos los textos ≥ 4,5:1 (el más justo, 5,97:1) |
+| Contraste | Cálculo WCAG 2.1 de cada par de colores | Todos los textos ≥ 4,5:1 (el más justo, 5,89:1) |
 | Teclado | Recorrido con Tab en las 3 páginas | Orden lógico y foco siempre visible |
 | Anchos | 375, 600, 768 y 1280 px | Sin solapamientos ni desplazamiento horizontal |
 
