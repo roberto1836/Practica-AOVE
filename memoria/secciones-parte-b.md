@@ -1,6 +1,6 @@
 # Memoria · Secciones de la Parte B
 
-**Autor:** Integrante B (Compra, cliente y diseño del grupo Oleum).
+**Autor:** Roberto Riofrío Ortega (parte B del reparto: compra, cliente, sistema visual y diseño de Oleum).
 
 Estas secciones se integran en la memoria común del grupo. Los anexos detallados se encuentran en la misma carpeta `memoria/`:
 - **Anexo A:** historias de usuario del cliente (`analisis/historias-cliente.md`).
@@ -102,7 +102,7 @@ Se han seguido rigurosamente los cuatro principios de accesibilidad:
 
 ---
 
-## 6. Contribución de la Parte B
+## 6. Contribución de la Parte B (Roberto Riofrío Ortega)
 
 - **Páginas desarrolladas:** Maquetación HTML semántica y controladores JS de Carrito, Confirmación en pasos, Perfil, Mis pedidos y Detalle de pedido.
 - **Sistema visual:** Consolidación de `base.css` (tablas adaptables, tarjetas, badges, alertas, stepper, formularios) y creación de `compra.css`.
