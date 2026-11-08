@@ -6,9 +6,8 @@ import { productos } from '../datos/productos.js';
 import { buscarProducto, validarCantidad } from '../catalogo/filtros.js';
 import { clonarPlantilla, ponerImagen } from '../catalogo/vista.js';
 import { formatearPrecio, formatearPrecioPorLitro, formatearVolumen } from '../util/formato.js';
-// Sustitutos provisionales con la misma interfaz que los ficheros de B y C.
-// En la fase 8 solo cambian estas dos líneas: '../carrito.js' y '../sesion.js'.
-import { anadir } from '../sustitutos/carrito.js';
+// Integración con carrito.js definitivo (B) y sustituto de sesión (C).
+import { anadir } from '../carrito.js';
 import { usuarioActual } from '../sustitutos/sesion.js';
 
 const AVISO_ADMINISTRADOR = 'Has iniciado sesión como administrador: la compra está desactivada.';
