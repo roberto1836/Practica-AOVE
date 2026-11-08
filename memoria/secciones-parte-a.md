@@ -146,7 +146,7 @@ La auditoría de Lighthouse detectó que la página «saltaba» al cargar (CLS d
 
 - Los datos viven en un módulo de JavaScript. En la Parte 2 los sirve el DAO con consultas parametrizadas: la búsqueda con `LIKE ?`, los filtros con `IN (?, ?)` y la paginación con `LIMIT ? OFFSET ?`.
 - La búsqueda sin tildes se hace hoy en JavaScript. En la Parte 2 se resolverá en la base de datos, con una ordenación (*collation*) que ignore los acentos o normalizando el texto en el servicio.
-- El carrito y la sesión son sustitutos en memoria con la interfaz acordada. En la integración se sustituyen por los de B y C, y «Añadir al carrito» pasa a redirigir al carrito, como indica el apartado 6.2.
+- El carrito (de B) se guarda en el navegador con `localStorage` y la sesión está simulada. En la Parte 2 los dos pasan al servidor: el carrito a la `HttpSession` y el usuario a la sesión que se crea al iniciar sesión.
 - Toda la validación del navegador se repetirá en el servidor, porque nunca se confía en lo que envía el navegador (apartado 7).
 
 ---

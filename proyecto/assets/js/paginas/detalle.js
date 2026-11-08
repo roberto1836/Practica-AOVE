@@ -87,7 +87,6 @@ function irAlLogin(producto) {
 function prepararCompra(formularioCompra, producto) {
   const campo = formularioCompra.querySelector('.formulario-compra__campo');
   const mensajeError = formularioCompra.querySelector('.formulario-compra__error');
-  const confirmacion = formularioCompra.querySelector('.formulario-compra__confirmacion');
   const [botonQuitar, botonAnadir] = formularioCompra.querySelectorAll('.formulario-compra__cambiar');
 
   formularioCompra.querySelector('input[name="productoId"]').value = String(producto.id);
@@ -122,7 +121,6 @@ function prepararCompra(formularioCompra, producto) {
 
   formularioCompra.addEventListener('submit', (evento) => {
     evento.preventDefault();
-    confirmacion.textContent = '';
     const error = validarCantidad(campo.value, producto.stock);
     if (error !== null) {
       mostrarError(campo, mensajeError, error);
@@ -140,8 +138,8 @@ function prepararCompra(formularioCompra, producto) {
       campo.focus();
       return;
     }
-    limpiarError(campo, mensajeError);
-    confirmacion.textContent = `Añadido al carrito: ${cantidad} × ${producto.nombre}.`;
+    // Apartado 6.2: tras añadir se redirige al carrito, que muestra la línea, el total y el contador.
+    location.href = 'carrito.html';
   });
 }
 

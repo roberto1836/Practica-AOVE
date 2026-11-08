@@ -43,10 +43,10 @@ Datos de prueba: los 20 productos de `datos/productos.js` (19 activos, 2 agotado
 | P-22 | VIS-11 | `producto.html?id=1` | Ficha completa: 18,95 €, «37,90 € por litro», «Disponible · 34 unidades», migas y título «Primer Día Picual · Oleum» | Correcto |
 | P-23 | VIS-11 (error) | `producto.html?id=20`, `?id=999`, `?id=abc` e `?id=` | «Producto no encontrado» con enlace al catálogo; un solo h1 | Correcto en los 4 casos |
 | P-24 | VIS-12 | Sin sesión (`ROL_DE_PRUEBA = null`), pulsar «Añadir al carrito» | Ir a `login.html?volver=producto.html%3Fid%3D1` | Correcto |
-| P-25 | CLI-01 | Cliente: cantidad 2 y «Añadir al carrito» | «Añadido al carrito: 2 × Primer Día Picual.» | Correcto |
+| P-25 | CLI-01 | Cliente: cantidad 2 y «Añadir al carrito» | Redirige a `carrito.html`, con la línea 2 × Primer Día Picual y el contador de la cabecera en 2 | Correcto |
 | P-26 | CLI-01 (error) | Cantidad 0 | «La cantidad mínima es 1.» junto al campo, `aria-invalid` y foco en el campo | Correcto |
 | P-27 | CLI-01 (error) | Cantidad 999 (stock 34) | «Solo quedan 34 unidades.»; no se añade nada | Correcto |
-| P-28 | CLI-01 (error) | Tras añadir 2, intentar añadir 34 | El sustituto del carrito avisa de que se superaría el stock | Correcto: «Ya tienes 2 en el carrito y solo quedan 34 unidades.» |
+| P-28 | CLI-01 (error) | Tras añadir 2, intentar añadir 34 | `carrito.js` (B) avisa de que se superaría el stock | Correcto: «Ya tienes 2 en el carrito y solo quedan 34 unidades.» |
 | P-29 | CLI-01 | Botón − con la cantidad en 1; después + | El − explica el mínimo sin bajar de 1; el + sube a 2 | Correcto |
 | P-30 | CLI-01 (error) | `producto.html?id=4` (agotado) | Controles desactivados y el botón dice «Agotado» | Correcto |
 | P-31 | Rol admin | `ROL_DE_PRUEBA = 'admin'` y abrir una ficha | Sin formulario de compra; aviso de compra desactivada | Correcto |
