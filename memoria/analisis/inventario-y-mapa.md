@@ -13,11 +13,11 @@ Oleum tiene 13 páginas repartidas en tres niveles de acceso: público, cliente 
 | Ficha de producto | `producto.html?id=N` | `GET /productos/{id}` (404 si no existe) | Público | Datos del aceite, precio por litro, existencias y formulario de compra | VIS-11, VIS-12, VIS-13, CLI-01 | A |
 | Registro | `registro.html` | `GET/POST /registro` | Público | Formulario de alta con validación | 3.2 · historias de C | C |
 | Iniciar sesión | `login.html?volver=…` | `GET/POST /login` | Público | Formulario de acceso; tras entrar, vuelve a la página de `volver` | 3.2, VIS-12 · historias de C | C |
-| Carrito | `carrito.html` | `GET /carrito` · `POST /carrito/items/{id}` | Cliente | Líneas, cambiar cantidad, eliminar, subtotal y total | 3.1 · historias de B | B |
-| Confirmar pedido | `confirmacion.html` | Formulario previo a `POST /pedidos` *(propuesta)* | Cliente | Dirección de envío, resumen, pago ficticio y confirmación | 3.1, 3.3 · historias de B | B |
-| Detalle de pedido | `pedido.html?id=N` | `GET /mis-pedidos/{id}` *(propuesta)* | Cliente | Líneas con su precio guardado, total y estado | 3.1, 3.3 · historias de B | B |
-| Mis pedidos | `mis-pedidos.html` | `GET /mis-pedidos` | Cliente | Historial de pedidos del usuario de la sesión | 3.1 · historias de B | B |
-| Mi perfil | `perfil.html` | `GET/POST /perfil` *(propuesta)* | Cliente | Datos personales y dirección | 3.2 · historias de B | B |
+| Carrito | `carrito.html` | `GET /carrito` · `POST /carrito/items/{id}` | Cliente | Líneas, cambiar cantidad, eliminar, subtotal y total | 3.1 · CLI-01 a CLI-04 | B |
+| Confirmar pedido | `confirmacion.html` | Formulario previo a `POST /pedidos` *(propuesta)* | Cliente | Dirección de envío, resumen, pago ficticio y confirmación | 3.1, 3.3 · CLI-05 a CLI-09 | B |
+| Detalle de pedido | `pedido.html?id=N` | `GET /mis-pedidos/{id}` *(propuesta)* | Cliente | Líneas con su precio guardado, total y estado | 3.1, 3.3 · CLI-11 | B |
+| Mis pedidos | `mis-pedidos.html` | `GET /mis-pedidos` | Cliente | Historial de pedidos del usuario de la sesión | 3.1 · CLI-10 | B |
+| Mi perfil | `perfil.html` | `GET/POST /perfil` *(propuesta)* | Cliente | Datos personales y dirección | 3.2 · CLI-12 | B |
 | Productos (admin) | `admin/productos.html` | `GET /admin/productos` | Administrador | Listado con existencias, alta, edición y baja lógica | 3.2 · historias de C | C |
 | Alta y edición de producto | `admin/producto-form.html` | `GET/POST /admin/productos/...` | Administrador | Formulario de producto con validación | 3.2 · historias de C | C |
 | Pedidos (admin) | `admin/pedidos.html` | `GET /admin/pedidos` · `POST /admin/pedidos/{id}/estado` | Administrador | Pedidos y cambio de estado | 3.2 · historias de C | C |
