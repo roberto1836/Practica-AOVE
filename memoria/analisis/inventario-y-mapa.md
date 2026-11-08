@@ -28,7 +28,8 @@ Las rutas marcadas como *propuesta* no aparecen en el contrato del apartado 6.2.
 
 - [x] Todas las historias del visitante y la CLI-01 tienen página.
 - [x] Ninguna página de la Parte A queda sin historia.
-- [ ] Páginas de B y C con sus historias (cuando las manden).
+- [x] Páginas de B completadas con sus historias (CLI-01 a CLI-12 en `historias-cliente.md`).
+- [ ] Páginas de C con sus historias (cuando las mande).
 
 ## Mapa de navegación
 

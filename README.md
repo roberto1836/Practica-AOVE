@@ -39,7 +39,7 @@ Las páginas usan módulos de JavaScript, así que **siempre se abren desde un s
 node --test
 ```
 
-Ejecuta las pruebas automáticas de la lógica del catálogo (`pruebas/`). La matriz completa de pruebas está en `memoria/`.
+Ejecuta las 40 pruebas automáticas de la lógica del catálogo, carrito de la compra y persistencia de pedidos (`pruebas/`). La matriz completa de pruebas está en `memoria/analisis/`.
 
 ## Estructura
 
