@@ -1,8 +1,8 @@
 /* =============================================================================
-   base.css · SUSTITUTO PROVISIONAL (A) del sistema visual común de Oleum.
-   El base.css bueno es de B (acuerdos, sección 9). Este existe para que las
-   páginas tengan estilo mientras tanto: B puede adoptarlo tal cual o cambiar
-   los valores de las variables sin romper ninguna página.
+   base.css · Sistema visual común de Oleum.
+   Propuesto por A; según los acuerdos lo mantiene B. Va enlazado en todas las
+   páginas, antes de la hoja propia de cada una. Cambiar el valor de una variable
+   cambia toda la web; cambiar su nombre rompe las páginas que la usan.
    Contiene: variables, estilos base, accesibilidad, cabecera, pie, botones y
    campos de formulario.
    ============================================================================= */
@@ -217,7 +217,7 @@ main {
   content: "";
   width: 2rem;
   height: 2rem;
-  background: url("../../img/favicon.svg") center / contain no-repeat;
+  background: url("../img/favicon.svg") center / contain no-repeat;
 }
 
 /* En móvil, el menú ocupa una fila entera bajo el logo, con las cuatro opciones repartidas. */
