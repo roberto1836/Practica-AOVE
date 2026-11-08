@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+<!-- Portada de Oleum (A): presentación, aceites destacados y accesos al catálogo por categoría.
+     El contenido dinámico lo pinta assets/js/paginas/inicio.js con las plantillas del final de <main>. -->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Oleum · Aceite de oliva virgen extra</title>
+  <meta name="description" content="Tienda online de aceite de oliva virgen extra con denominación de origen: aceites de cosecha temprana, ecológicos, de uso diario y para regalar.">
+  <!-- Sistema visual común del grupo (ACUERDOS.md, sección 9) y, después, la hoja propia de la página. -->
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/catalogo.css">
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <script type="module" src="assets/js/paginas/inicio.js"></script>
+</head>
+<body>
+  <!-- cabecera-comun: inicio (B) -->
+  <!-- Versión provisional de A hasta que B entregue la definitiva. -->
+  <a class="saltar-al-contenido" href="#contenido">Saltar al contenido</a>
+  <header class="cabecera">
+    <a class="cabecera__logo" href="index.html">Oleum</a>
+    <nav class="cabecera__navegacion" aria-label="Principal">
+      <ul class="menu">
+        <li class="menu__elemento"><a class="menu__enlace" href="index.html" aria-current="page">Inicio</a></li>
+        <li class="menu__elemento"><a class="menu__enlace" href="productos.html">Catálogo</a></li>
+        <li class="menu__elemento"><a class="menu__enlace" href="carrito.html">Carrito</a></li>
+        <li class="menu__elemento"><a class="menu__enlace" href="perfil.html">Mi cuenta</a></li>
+      </ul>
+    </nav>
+  </header>
+  <!-- cabecera-comun: fin -->
+
+  <main id="contenido" class="pagina-inicio">
+    <noscript>
+      <p class="aviso">Los aceites destacados y las categorías necesitan JavaScript. Actívalo en tu navegador para verlos.</p>
+    </noscript>
+
+    <section class="portada" aria-labelledby="titulo-portada">
+      <h1 class="portada__titulo" id="titulo-portada">Oleum, aceite de oliva virgen extra de origen</h1>
+      <p class="portada__presentacion">Aceites de oliva virgen extra de distintas variedades y denominaciones de origen, con el productor y la zona de cada uno a la vista.</p>
+      <a class="portada__enlace boton" href="productos.html">Ver el catálogo completo</a>
+    </section>
+
+    <section class="destacados" aria-labelledby="titulo-destacados">
+      <h2 id="titulo-destacados">Destacados</h2>
+      <!-- Un aceite con stock de cada categoría (VIS-01); lo rellena inicio.js. -->
+      <ul class="rejilla-productos" id="lista-destacados"></ul>
+    </section>
+
+    <section class="categorias" aria-labelledby="titulo-categorias">
+      <h2 id="titulo-categorias">Compra por categoría</h2>
+      <ul class="lista-categorias" id="lista-categorias"></ul>
+    </section>
+
+    <section class="por-que" aria-labelledby="titulo-por-que">
+      <h2 id="titulo-por-que">Por qué Oleum</h2>
+      <ul class="por-que__lista">
+        <li class="por-que__punto">
+          <h3 class="por-que__titulo">Orígenes con DOP</h3>
+          <p class="por-que__texto">Todos nuestros aceites proceden de zonas con Denominación de Origen Protegida, y en cada ficha se indica cuál.</p>
+        </li>
+        <li class="por-que__punto">
+          <h3 class="por-que__titulo">Productores seleccionados</h3>
+          <p class="por-que__texto">Trabajamos con almazaras, cortijos y haciendas de distintas zonas olivareras. En cada ficha consta quién elabora el aceite.</p>
+        </li>
+        <li class="por-que__punto">
+          <h3 class="por-que__titulo">Cosecha de temporada</h3>
+          <p class="por-que__texto">La aceituna se recoge en otoño e invierno. En «Cosecha temprana» reunimos los aceites de los primeros días de campaña, más verdes e intensos.</p>
+        </li>
+      </ul>
+    </section>
+
+    <!-- Plantillas: inicio.js las clona y rellena con textContent (nunca innerHTML con datos). -->
+    <template id="plantilla-tarjeta-producto">
+      <li class="rejilla-productos__elemento">
+        <article class="tarjeta-producto">
+          <!-- alt vacío: el nombre del producto va justo al lado, en el h3, y repetirlo sería ruido para el lector de pantalla. -->
+          <img class="tarjeta-producto__imagen" src="assets/img/producto-sin-imagen.svg" alt="" width="400" height="400" loading="lazy">
+          <h3 class="tarjeta-producto__nombre"><a class="tarjeta-producto__enlace" href="producto.html">Nombre del producto</a></h3>
+          <p class="tarjeta-producto__detalle"><span class="tarjeta-producto__variedad">Variedad</span> · <span class="tarjeta-producto__formato">Formato</span></p>
+          <p class="tarjeta-producto__precio">Precio</p>
+          <p class="tarjeta-producto__disponibilidad">Disponibilidad</p>
+        </article>
+      </li>
+    </template>
+
+    <template id="plantilla-tarjeta-categoria">
+      <li class="lista-categorias__elemento">
+        <article class="tarjeta-categoria">
+          <h3 class="tarjeta-categoria__nombre"><a class="tarjeta-categoria__enlace" href="productos.html">Nombre de la categoría</a></h3>
+          <p class="tarjeta-categoria__descripcion">Descripción de la categoría</p>
+        </article>
+      </li>
+    </template>
+  </main>
+
+  <!-- pie-comun: inicio (B) -->
+  <!-- Versión provisional de A hasta que B entregue la definitiva. -->
+  <footer class="pie">
+    <p class="pie__marca">Oleum · Aceite de oliva virgen extra</p>
+    <p class="pie__aviso">Tienda de prácticas: el pago es simulado y no se realiza ningún cobro.</p>
+    <p class="pie__aviso">Práctica de Arquitectura y Diseño de Sistemas Web y C/S · Universidad de Alcalá (UAH), curso 2026-27.</p>
+  </footer>
+  <!-- pie-comun: fin -->
+</body>
+</html>
