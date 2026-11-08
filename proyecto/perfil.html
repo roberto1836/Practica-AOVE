@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="es">
+<!-- Área del cliente · Perfil de Oleum (B): consulta y edición de datos personales y dirección habitual. -->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mi perfil · Oleum</title>
+  <meta name="description" content="Consulta y actualiza tus datos personales y tu dirección de envío en Oleum.">
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/compra.css">
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <script type="module" src="assets/js/paginas/perfil.js"></script>
+</head>
+<body>
+  <!-- cabecera-comun: inicio (B) -->
+  <a class="saltar-al-contenido" href="#contenido">Saltar al contenido</a>
+  <header class="cabecera">
+    <a class="cabecera__logo" href="index.html">Oleum</a>
+    <nav class="cabecera__navegacion" aria-label="Principal">
+      <ul class="menu" id="menu-navegacion">
+        <li class="menu__elemento"><a class="menu__enlace" href="index.html">Inicio</a></li>
+        <li class="menu__elemento"><a class="menu__enlace" href="productos.html">Catálogo</a></li>
+        <li class="menu__elemento">
+          <a class="menu__enlace" href="carrito.html">
+            <span>Carrito</span>
+            <span class="cabecera__contador" id="contador-carrito" aria-label="0 artículos en el carrito" data-unidades="0">0</span>
+          </a>
+        </li>
+        <li class="menu__elemento"><a class="menu__enlace" href="perfil.html" aria-current="page">Mi cuenta</a></li>
+        <li class="menu__elemento" id="menu-admin-item" hidden>
+          <a class="menu__enlace" href="admin/productos.html">Administración</a>
+        </li>
+      </ul>
+    </nav>
+  </header>
+  <!-- cabecera-comun: fin -->
+
+  <main id="contenido">
+    <noscript>
+      <p class="aviso">El área de cliente requiere JavaScript para gestionar la sesión y actualizar tus datos. Actívalo en tu navegador.</p>
+    </noscript>
+
+    <h1>Mi cuenta</h1>
+
+    <div class="vista-perfil">
+      <section class="tarjeta" aria-labelledby="titulo-datos-cuenta">
+        <h2 id="titulo-datos-cuenta" class="tarjeta__titulo">Datos personales y de envío</h2>
+        <p class="campo__ayuda">Mantén tu información al día para agilizar la entrega de tus pedidos de aceite.</p>
+
+        <div id="alerta-perfil" class="alerta alerta--exito" role="status" aria-live="polite" hidden></div>
+
+        <form id="form-perfil" novalidate>
+          <div class="formulario-grid formulario-grid--dos-columnas">
+            <div class="grupo-campo">
+              <label class="campo__etiqueta" for="perfil-nombre">
+                Nombre y apellidos <span class="campo__obligatorio" aria-hidden="true">*</span>
+              </label>
+              <input type="text" id="perfil-nombre" name="nombre" required autocomplete="name" aria-describedby="error-perfil-nombre">
+              <span class="campo__error" id="error-perfil-nombre" role="alert"></span>
+            </div>
+
+            <div class="grupo-campo">
+              <label class="campo__etiqueta" for="perfil-email">
+                Correo electrónico <span class="campo__obligatorio" aria-hidden="true">*</span>
+              </label>
+              <input type="email" id="perfil-email" name="email" required autocomplete="email" aria-describedby="error-perfil-email ayuda-perfil-email">
+              <span class="campo__ayuda" id="ayuda-perfil-email">Utilizado como identificador de acceso a la tienda.</span>
+              <span class="campo__error" id="error-perfil-email" role="alert"></span>
+            </div>
+
+            <div class="grupo-campo">
+              <label class="campo__etiqueta" for="perfil-telefono">
+                Teléfono de contacto <span class="campo__obligatorio" aria-hidden="true">*</span>
+              </label>
+              <input type="tel" id="perfil-telefono" name="telefono" required autocomplete="tel" placeholder="Ej. 612345678" aria-describedby="error-perfil-telefono">
+              <span class="campo__error" id="error-perfil-telefono" role="alert"></span>
+            </div>
+
+            <div class="grupo-campo">
+              <label class="campo__etiqueta" for="perfil-cp">
+                Código postal <span class="campo__obligatorio" aria-hidden="true">*</span>
+              </label>
+              <input type="text" id="perfil-cp" name="cp" required maxlength="5" pattern="[0-9]{5}" autocomplete="postal-code" placeholder="Ej. 28801" aria-describedby="error-perfil-cp">
+              <span class="campo__error" id="error-perfil-cp" role="alert"></span>
+            </div>
+
+            <div class="grupo-campo formulario-grid__columna-completa">
+              <label class="campo__etiqueta" for="perfil-calle">
+                Dirección habitual de entrega <span class="campo__obligatorio" aria-hidden="true">*</span>
+              </label>
+              <input type="text" id="perfil-calle" name="calle" required autocomplete="street-address" placeholder="Ej. Calle Mayor 14, 2º B" aria-describedby="error-perfil-calle">
+              <span class="campo__error" id="error-perfil-calle" role="alert"></span>
+            </div>
+
+            <div class="grupo-campo">
+              <label class="campo__etiqueta" for="perfil-ciudad">
+                Ciudad / Localidad <span class="campo__obligatorio" aria-hidden="true">*</span>
+              </label>
+              <input type="text" id="perfil-ciudad" name="ciudad" required autocomplete="address-level2" placeholder="Ej. Alcalá de Henares" aria-describedby="error-perfil-ciudad">
+              <span class="campo__error" id="error-perfil-ciudad" role="alert"></span>
+            </div>
+
+            <div class="grupo-campo">
+              <label class="campo__etiqueta" for="perfil-provincia">
+                Provincia <span class="campo__obligatorio" aria-hidden="true">*</span>
+              </label>
+              <input type="text" id="perfil-provincia" name="provincia" required autocomplete="address-level1" placeholder="Ej. Madrid" aria-describedby="error-perfil-provincia">
+              <span class="campo__error" id="error-perfil-provincia" role="alert"></span>
+            </div>
+          </div>
+
+          <div style="margin-top:var(--espacio-5);display:flex;justify-content:flex-end;">
+            <button type="submit" class="boton">Guardar cambios</button>
+          </div>
+        </form>
+      </section>
+
+      <section class="tarjeta" aria-labelledby="titulo-accesos-cuenta">
+        <h2 id="titulo-accesos-cuenta" class="tarjeta__titulo">Gestión de tus compras</h2>
+        <p class="campo__ayuda">Revisa el estado de tus entregas anteriores o gestiona tu cesta actual.</p>
+        <div class="perfil-enlaces-rapidos">
+          <a href="mis-pedidos.html" class="boton boton--secundario">Consultar mis pedidos</a>
+          <a href="carrito.html" class="boton boton--secundario">Ver mi carrito</a>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- pie-comun: inicio (B) -->
+  <footer class="pie">
+    <p class="pie__marca">Oleum · Aceite de oliva virgen extra</p>
+    <p class="pie__aviso">Tienda de prácticas: el pago es simulado y no se realiza ningún cobro.</p>
+    <p class="pie__aviso">Práctica de Arquitectura y Diseño de Sistemas Web y C/S · Universidad de Alcalá (UAH), curso 2026-27.</p>
+  </footer>
+  <!-- pie-comun: fin -->
+</body>
+</html>
