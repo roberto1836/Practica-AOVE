@@ -1,0 +1,10 @@
+# Saltos de línea LF en el repositorio para todos, aunque se trabaje en Windows (ACUERDOS.md, sección 10).
+* text=auto eol=lf
+
+# Binarios: Git no los toca nunca.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.pdf binary
+*.woff2 binary
+*.war binary
