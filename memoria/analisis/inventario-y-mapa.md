@@ -51,7 +51,7 @@ Cómo se lee:
 
 ## Decisiones que hay que confirmar con B y C
 
-1. **Después de «Añadir al carrito».** El apartado 6.2 dice que se redirige al carrito, y así se dibuja. Hasta la integración, la ficha muestra una confirmación, porque `carrito.html` aún no existe. En la fase 8 se cambia una línea de `detalle.js`.
+1. **Después de «Añadir al carrito».** Resuelto en la integración con B: como pide el apartado 6.2, `detalle.js` redirige a `carrito.html` (la flecha discontinua Ficha → Carrito del mapa).
 2. **Enlace «Administración» de la cabecera:** solo se ve si `usuarioActual().rol` es `'admin'` (B, con la sesión de C).
 3. **«Mi cuenta» y «Carrito» sin sesión:** llevan a `login.html?volver=…`, igual que la ficha.
 4. **«Cerrar sesión»:** en la Parte 2 es un `POST /logout` (nunca un `GET`, como pide el enunciado), que redirige a Inicio.

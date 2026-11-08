@@ -663,14 +663,7 @@
   width: 100%;
 }
 
-.formulario-compra__confirmacion {
-  margin: 0;
-  font-weight: 600;
-  color: var(--color-exito);
-}
-
-.formulario-compra__error:empty,
-.formulario-compra__confirmacion:empty {
+.formulario-compra__error:empty {
   display: none;
 }
 
