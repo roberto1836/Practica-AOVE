@@ -11,7 +11,7 @@ Aplicación web con arquitectura MVC para consultar y comprar AOVE, con pago sim
 | Parte | Integrante | Páginas y responsabilidades |
 | --- | --- | --- |
 | A | Noe ([@noelopezgarcia](https://github.com/noelopezgarcia)) | Inicio, catálogo y ficha de producto; datos de productos; análisis (historias, inventario y mapa de navegación); propuesta del sistema visual |
-| B | *(nombre y usuario de GitHub)* | Carrito, confirmación de pedido, perfil e historial; sistema visual, cabecera y pie |
+| B | Roberto Riofrío Ortega ([@roberto1836](https://github.com/roberto1836)) | Carrito, confirmación de pedido, perfil e historial; sistema visual, cabecera y pie |
 | C | *(nombre y usuario de GitHub)* | Registro, login y administración; validación de formularios, sesión simulada y despliegue |
 
 El detalle de quién mantiene cada fichero está en [ACUERDOS.md](ACUERDOS.md).
@@ -39,7 +39,7 @@ Las páginas usan módulos de JavaScript, así que **siempre se abren desde un s
 node --test
 ```
 
-Ejecuta las pruebas automáticas de la lógica del catálogo (`pruebas/`). La matriz completa de pruebas está en `memoria/`.
+Ejecuta las 40 pruebas automáticas de la lógica del catálogo, carrito de la compra y persistencia de pedidos (`pruebas/`). La matriz completa de pruebas está en `memoria/analisis/`.
 
 ## Estructura
 

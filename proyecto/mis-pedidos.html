@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<!-- Historial de pedidos de Oleum (B): listado en tabla de las compras del cliente autenticado con su estado. -->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mis pedidos · Oleum</title>
+  <meta name="description" content="Consulta el historial y seguimiento de todos tus pedidos de aceite de oliva en Oleum.">
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/compra.css">
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <script type="module" src="assets/js/paginas/mis-pedidos.js"></script>
+</head>
+<body>
+  <!-- cabecera-comun: inicio (B) -->
+  <a class="saltar-al-contenido" href="#contenido">Saltar al contenido</a>
+  <header class="cabecera">
+    <a class="cabecera__logo" href="index.html">Oleum</a>
+    <nav class="cabecera__navegacion" aria-label="Principal">
+      <ul class="menu" id="menu-navegacion">
+        <li class="menu__elemento"><a class="menu__enlace" href="index.html">Inicio</a></li>
+        <li class="menu__elemento"><a class="menu__enlace" href="productos.html">Catálogo</a></li>
+        <li class="menu__elemento">
+          <a class="menu__enlace" href="carrito.html">
+            <span>Carrito</span>
+            <span class="cabecera__contador" id="contador-carrito" aria-label="0 artículos en el carrito" data-unidades="0">0</span>
+          </a>
+        </li>
+        <li class="menu__elemento"><a class="menu__enlace" href="perfil.html">Mi cuenta</a></li>
+        <li class="menu__elemento" id="menu-admin-item" hidden>
+          <a class="menu__enlace" href="admin/productos.html">Administración</a>
+        </li>
+      </ul>
+    </nav>
+  </header>
+  <!-- cabecera-comun: fin -->
+
+  <main id="contenido">
+    <noscript>
+      <p class="aviso">El historial de pedidos requiere JavaScript para consultar tus compras. Actívalo en tu navegador.</p>
+    </noscript>
+
+    <div style="display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:var(--espacio-2);margin-bottom:var(--espacio-4);">
+      <h1>Mis pedidos</h1>
+      <a href="perfil.html" class="boton boton--secundario" style="font-size:var(--texto-sm);min-height:auto;padding:var(--espacio-1) var(--espacio-3);">Volver a mi perfil</a>
+    </div>
+
+    <div id="contenedor-pedidos">
+      <!-- Rellenado dinámicamente por assets/js/paginas/mis-pedidos.js -->
+    </div>
+
+    <!-- Plantilla de Sin Pedidos -->
+    <template id="plantilla-sin-pedidos">
+      <section class="carrito-vacio" aria-labelledby="titulo-sin-pedidos">
+        <h2 id="titulo-sin-pedidos" class="carrito-vacio__titulo">Aún no has realizado ningún pedido</h2>
+        <p class="carrito-vacio__mensaje">Cuando completes tu primera compra de aceite de oliva virgen extra, podrás realizar su seguimiento desde aquí.</p>
+        <a href="productos.html" class="boton">Descubrir aceites</a>
+      </section>
+    </template>
+  </main>
+
+  <!-- pie-comun: inicio (B) -->
+  <footer class="pie">
+    <p class="pie__marca">Oleum · Aceite de oliva virgen extra</p>
+    <p class="pie__aviso">Tienda de prácticas: el pago es simulado y no se realiza ningún cobro.</p>
+    <p class="pie__aviso">Práctica de Arquitectura y Diseño de Sistemas Web y C/S · Universidad de Alcalá (UAH), curso 2026-27.</p>
+  </footer>
+  <!-- pie-comun: fin -->
+</body>
+</html>
