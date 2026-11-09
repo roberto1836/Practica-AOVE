@@ -12,9 +12,24 @@
           <span class="cabecera__contador" id="contador-carrito" aria-label="0 artículos en el carrito" data-unidades="0">0</span>
         </a>
       </li>
-      <li class="menu__elemento"><a class="menu__enlace" href="perfil.html">Mi cuenta</a></li>
+      <li class="menu__elemento" id="menu-pedidos-item" hidden>
+        <a class="menu__enlace" href="mis-pedidos.html">Mis pedidos</a>
+      </li>
+      <li class="menu__elemento" id="menu-cuenta-item" hidden>
+        <a class="menu__enlace" href="perfil.html" id="enlace-menu-cuenta">Mi cuenta</a>
+      </li>
       <li class="menu__elemento" id="menu-admin-item" hidden>
         <a class="menu__enlace" href="admin/productos.html">Administración</a>
+      </li>
+      <li class="menu__elemento" id="menu-login-item">
+        <a class="menu__enlace" href="login.html">Iniciar sesión</a>
+      </li>
+      <li class="menu__elemento" id="menu-registro-item">
+        <a class="menu__enlace" href="registro.html">Crear cuenta</a>
+      </li>
+      <li class="menu__elemento" id="menu-logout-item" hidden>
+        <span id="nombre-usuario-sesion" class="cabecera__usuario" hidden></span>
+        <button type="button" class="boton boton--secundario" id="boton-cerrar-sesion">Cerrar sesión</button>
       </li>
     </ul>
   </nav>

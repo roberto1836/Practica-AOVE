@@ -43,6 +43,7 @@ function iniciarVistaLogin() {
       if (mensajeGlobal) {
         mensajeGlobal.textContent = resultado.mensaje;
         mensajeGlobal.className = "alerta alerta--error";
+        mensajeGlobal.setAttribute("role", "alert");
         mensajeGlobal.hidden = false;
       }
       campoPass.setAttribute("aria-invalid", "true");
@@ -82,6 +83,16 @@ function iniciarVistaRegistro() {
   };
 
   configurarValidacionEnVivo(formulario, validadores);
+
+  const inputPass = document.getElementById("reg-password");
+  const inputPassRep = document.getElementById("reg-password-repetir");
+  if (inputPass && inputPassRep) {
+    inputPass.addEventListener("input", () => {
+      if (inputPassRep.value.trim() !== "" || inputPassRep.getAttribute("aria-invalid") === "true") {
+        validarCampo(inputPassRep, validadores.passwordRepetir);
+      }
+    });
+  }
 
   formulario.addEventListener("submit", (evento) => {
     evento.preventDefault();

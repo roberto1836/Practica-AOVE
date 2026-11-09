@@ -14,49 +14,94 @@
 /**
  * Muestra un mensaje de error accesible junto al campo y marca aria-invalid="true".
  * No borra ni modifica el valor escrito por el usuario.
+ * Acepta tanto (campo, mensaje) como (campo, contenedorError, mensaje).
  * @param {HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement} campo
- * @param {string} mensaje
+ * @param {string | HTMLElement} mensajeOContenedor
+ * @param {string} [mensajeOpcional]
  */
-export function mostrarErrorCampo(campo, mensaje) {
+export function mostrarErrorCampo(campo, mensajeOContenedor, mensajeOpcional) {
   if (!campo || campo.type === "hidden") return;
 
   campo.setAttribute("aria-invalid", "true");
 
-  const idBase = campo.id || campo.name || "campo";
-  const idError = `${idBase}-error`;
-  let contenedorError = document.getElementById(idError);
+  let mensaje = typeof mensajeOContenedor === "string" ? mensajeOContenedor : mensajeOpcional || "";
+  let contenedorError = null;
 
-  if (!contenedorError) {
-    contenedorError = document.createElement("p");
-    contenedorError.id = idError;
-    contenedorError.className = "campo-error";
-    contenedorError.setAttribute("role", "alert");
-    campo.insertAdjacentElement("afterend", contenedorError);
+  if (mensajeOContenedor instanceof HTMLElement) {
+    contenedorError = mensajeOContenedor;
+  } else {
+    // Buscar si ya está referenciado en aria-describedby
+    const descActual = campo.getAttribute("aria-describedby") || "";
+    const idsDesc = descActual.split(/\s+/).filter(Boolean);
+    for (const id of idsDesc) {
+      const elem = document.getElementById(id);
+      if (elem && (elem.classList.contains("campo-error") || elem.classList.contains("campo__error"))) {
+        contenedorError = elem;
+        break;
+      }
+    }
+
+    const idBase = campo.id || campo.name || "campo";
+    if (!contenedorError) {
+      contenedorError =
+        document.getElementById(`error-${idBase}`) ||
+        document.getElementById(`${idBase}-error`);
+    }
+
+    if (!contenedorError) {
+      const idError = `${idBase}-error`;
+      contenedorError = document.createElement("p");
+      contenedorError.id = idError;
+      contenedorError.className = "campo-error";
+      contenedorError.setAttribute("role", "alert");
+      campo.insertAdjacentElement("afterend", contenedorError);
+    }
   }
 
   contenedorError.textContent = mensaje;
   contenedorError.hidden = false;
 
-  const descActual = campo.getAttribute("aria-describedby") || "";
-  const ids = descActual.split(/\s+/).filter(Boolean);
-  if (!ids.includes(idError)) {
-    ids.push(idError);
-    campo.setAttribute("aria-describedby", ids.join(" "));
+  if (contenedorError.id) {
+    const descActual = campo.getAttribute("aria-describedby") || "";
+    const ids = descActual.split(/\s+/).filter(Boolean);
+    if (!ids.includes(contenedorError.id)) {
+      ids.push(contenedorError.id);
+      campo.setAttribute("aria-describedby", ids.join(" "));
+    }
   }
 }
 
 /**
  * Limpia el estado de error de un campo y oculta su mensaje asociado.
+ * Acepta tanto (campo) como (campo, contenedorError).
  * @param {HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement} campo
+ * @param {HTMLElement} [contenedorOpcional]
  */
-export function limpiarErrorCampo(campo) {
+export function limpiarErrorCampo(campo, contenedorOpcional) {
   if (!campo || campo.type === "hidden") return;
 
   campo.removeAttribute("aria-invalid");
 
-  const idBase = campo.id || campo.name || "campo";
-  const idError = `${idBase}-error`;
-  const contenedorError = document.getElementById(idError);
+  let contenedorError = contenedorOpcional || null;
+
+  if (!contenedorError) {
+    const descActual = campo.getAttribute("aria-describedby") || "";
+    const idsDesc = descActual.split(/\s+/).filter(Boolean);
+    for (const id of idsDesc) {
+      const elem = document.getElementById(id);
+      if (elem && (elem.classList.contains("campo-error") || elem.classList.contains("campo__error"))) {
+        contenedorError = elem;
+        break;
+      }
+    }
+  }
+
+  if (!contenedorError) {
+    const idBase = campo.id || campo.name || "campo";
+    contenedorError =
+      document.getElementById(`error-${idBase}`) ||
+      document.getElementById(`${idBase}-error`);
+  }
 
   if (contenedorError) {
     contenedorError.textContent = "";
@@ -220,5 +265,11 @@ export function configurarValidacionEnVivo(formulario, validadoresPorNombre = {}
         validarCampo(campo, validadorExtra);
       }
     });
+
+    if (campo.tagName === "SELECT") {
+      campo.addEventListener("change", () => {
+        validarCampo(campo, validadorExtra);
+      });
+    }
   }
 }

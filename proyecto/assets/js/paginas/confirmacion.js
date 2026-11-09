@@ -3,6 +3,7 @@ import { obtenerLineas, calcularTotales, vaciar, contarUnidades } from '../carri
 import { crearPedido } from '../datos/pedidos.js';
 import { usuarioActual } from '../sesion.js';
 import { formatearPrecio, formatearVolumen } from '../util/formato.js';
+import { mostrarErrorCampo, limpiarErrorCampo } from '../validacion.js';
 import '../comun/cabecera.js';
 
 // Elementos de la interfaz
@@ -58,16 +59,6 @@ function actualizarIndicadorPasos(pasoActivo) {
 
   // Scroll suave al inicio del contenido
   window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-
-function mostrarErrorCampo(input, errorElement, mensaje) {
-  input.setAttribute('aria-invalid', 'true');
-  errorElement.textContent = mensaje;
-}
-
-function limpiarErrorCampo(input, errorElement) {
-  input.removeAttribute('aria-invalid');
-  errorElement.textContent = '';
 }
 
 function validarPasoEnvio() {

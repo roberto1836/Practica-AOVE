@@ -1,5 +1,6 @@
 // assets/js/paginas/perfil.js · Controlador del perfil de usuario (B)
 import { usuarioActual } from '../sesion.js';
+import { mostrarErrorCampo, limpiarErrorCampo } from '../validacion.js';
 import '../comun/cabecera.js';
 
 const formPerfil = document.getElementById('form-perfil');
@@ -65,13 +66,11 @@ function cargarDatosIniciales() {
 }
 
 function mostrarError(input, errElem, mensaje) {
-  input.setAttribute('aria-invalid', 'true');
-  errElem.textContent = mensaje;
+  mostrarErrorCampo(input, errElem, mensaje);
 }
 
 function limpiarError(input, errElem) {
-  input.removeAttribute('aria-invalid');
-  errElem.textContent = '';
+  limpiarErrorCampo(input, errElem);
 }
 
 function validarYGuardar(e) {

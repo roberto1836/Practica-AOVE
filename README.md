@@ -216,8 +216,8 @@ Todos los colores de texto cumplen el contraste AA y las tipografías son del si
 | Lunes 9, 21:00 | **Entregado**, con 3 horas de margen | C |
 | Jueves 12 | **Defensa:** cualquiera puede tener que explicar cualquiera de las 6 tareas del apartado 5.1 (análisis, sistema visual, HTML/CSS, JavaScript, validación y accesibilidad, despliegue) | Todos |
 
-## 12. Pendiente de decidir
+## 12. Acuerdos cerrados y confirmados
 
-- [ ] Quién crea el repo remoto (GitHub, privado, con los tres como colaboradores). Si nadie puede hoy, lo crea A.
-- [ ] Versión de Tomcat y del JDK.
-- [ ] Cómo simula C el login en la Parte 1 (usuarios y contraseñas de prueba).
+- [x] **Repositorio remoto:** Creado en GitHub (privado) con los tres integrantes como colaboradores.
+- [x] **Entorno de ejecución oficial:** Apache Tomcat 10.1+ sobre OpenJDK 25.
+- [x] **Simulación de sesión y usuarios de prueba (Parte 1):** Gestionada en `sessionStorage` por `sesion.js` con las credenciales de `datos/usuarios.js` (2 clientes y 1 administrador).

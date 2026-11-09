@@ -24,5 +24,15 @@ Todas las páginas de autenticación y administración (`login.html`, `registro.
 | **CP-C06** | Edición de producto inexistente *(7.1)* | URL `admin/producto-form.html?id=999` | Navegar con sesión de administrador a un ID inexistente. | Se oculta el formulario y se muestra alerta indicando que el producto `#999` no existe. | **Correcto (OK)** |
 | **CP-C07** | Baja lógica de producto | Producto `#1` (`activo: true`) | En `admin/productos.html`, pulsar el botón «Desactivar». | El estado cambia a «Inactivo (Baja)» (`activo: false`) sin eliminar el registro de la lista. | **Correcto (OK)** |
 | **CP-C08** | Cliente intentando acceder a `/admin` *(7.1)* | Sesión iniciada como `elena@oleum.es` (`rol: cliente`) | Acceder directamente a `admin/productos.html`, `admin/producto-form.html` o `admin/pedidos.html`. | `verificarAcceso('admin')` mantiene oculto el panel de administración y muestra la sección `#bloqueo-acceso`. | **Correcto (OK)** |
-| **CP-C09** | Cambio de estado de pedido | Pedido `#104` en estado `recibido` | En `admin/pedidos.html`, seleccionar `enviado` y pulsar «Actualizar». | El pedido pasa a `enviado`, se persiste en `sessionStorage` y se muestra confirmación en pantalla. | **Correcto (OK)** |
+| **CP-C09** | Cambio de estado de pedido | Pedido `#1001` en estado `recibido` | En `admin/pedidos.html`, seleccionar `enviado` y pulsar «Actualizar». | El pedido pasa a `enviado`, se persiste en `oleum_pedidos_v1` y se muestra confirmación en pantalla. | **Correcto (OK)** |
 | **CP-C10** | Prevención de redirección abierta *(Acuerdo 6)* | URL `login.html?volver=https://sitio-externo.com` | Iniciar sesión con credenciales válidas desde esa URL. | `obtenerRutaVolverSegura()` descarta la URL externa y redirige a la página interna por defecto. | **Correcto (OK)** |
+
+## 4. Pruebas Unitarias Automatizadas
+Se ha integrado la suite de pruebas unitarias para la Parte C bajo el ejecutor nativo `node --test` (`pruebas/sesion.test.mjs`):
+- **11 pruebas unitarias** que cubren autenticación de clientes y administradores, denegación por clave errónea o cuenta inactiva, registro y duplicados, sanitización de redirecciones abiertas, control de acceso por rol y gestión de estados de pedidos.
+- **Suite global del proyecto:** 51 pruebas automáticas (27 de A + 13 de B + 11 de C), ejecutadas con éxito al 100% en menos de 70 ms.
+
+## 5. Despliegue en Apache Tomcat 10.1
+- **Directorio de contexto:** `/oleum/` bajo `$TOMCAT_HOME/webapps/oleum`.
+- **Rutas y recursos:** Verificado que todas las referencias a CSS, imágenes, favicon y módulos JavaScript ES6 (`type="module"`) emplean rutas relativas estrictas y responden con código HTTP `200 OK` y `Content-Type: text/javascript`.
+- **Automatización:** Script de sincronización `./desplegar-tomcat.sh` ejecutable con un solo comando.
