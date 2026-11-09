@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Administración de productos · Oleum</title>
+  <link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../assets/css/base.css">
+  <link rel="stylesheet" href="../assets/css/admin.css">
+  <script type="module" src="../assets/js/admin/cabecera-sesion.js"></script>
+  <script type="module" src="../assets/js/admin/productos-admin.js"></script>
+</head>
+<body>
+  <a class="saltar-al-contenido" href="#contenido-principal">Saltar al contenido</a>
+
+  <!-- cabecera-comun: inicio (B) -->
+  <header class="cabecera">
+    <a class="cabecera__logo" href="../index.html">Oleum</a>
+    <nav class="cabecera__navegacion" aria-label="Principal">
+      <ul class="menu" id="menu-principal">
+        <li><a class="menu__enlace" href="../index.html">Inicio</a></li>
+        <li><a class="menu__enlace" href="../productos.html">Catálogo</a></li>
+        <li><a class="menu__enlace" href="../carrito.html">Carrito</a></li>
+        <li id="item-nav-admin"><a class="menu__enlace" href="productos.html" aria-current="page">Administración</a></li>
+        <li id="item-nav-pedidos" hidden><a class="menu__enlace" href="../mis-pedidos.html">Mis pedidos</a></li>
+        <li id="item-nav-perfil" hidden><a class="menu__enlace" href="../perfil.html">Mi perfil</a></li>
+        <li id="item-nav-login"><a class="menu__enlace" href="../login.html">Iniciar sesión</a></li>
+        <li id="item-nav-registro"><a class="menu__enlace" href="../registro.html">Crear cuenta</a></li>
+        <li id="item-nav-logout" hidden>
+          <span id="nombre-usuario-sesion" class="cabecera__usuario" hidden></span>
+          <button type="button" class="boton boton--secundario" id="boton-cerrar-sesion">Cerrar sesión</button>
+        </li>
+      </ul>
+    </nav>
+  </header>
+  <!-- cabecera-comun: fin -->
+
+  <main id="contenido-principal">
+    <noscript>
+      <p class="aviso">Esta aplicación necesita JavaScript para administrar el catálogo.</p>
+    </noscript>
+
+    <section id="bloqueo-acceso" class="alerta alerta--error" hidden aria-labelledby="titulo-denegado">
+      <h1 id="titulo-denegado">Acceso restringido</h1>
+      <p id="texto-denegado">Solo los usuarios con rol de administrador pueden acceder a esta sección.</p>
+      <p><a class="boton" href="../login.html?volver=admin/productos.html">Iniciar sesión como administrador</a></p>
+    </section>
+
+    <section id="panel-admin-productos" hidden aria-labelledby="titulo-admin-prod">
+      <div class="admin-cabecera">
+        <div>
+          <h1 id="titulo-admin-prod">Gestión de productos</h1>
+          <p>Mantén el catálogo, actualiza las existencias y aplica bajas lógicas sin borrar el historial.</p>
+        </div>
+        <a class="boton" href="producto-form.html">Nuevo producto</a>
+      </div>
+
+      <nav aria-label="Secciones de administración">
+        <ul class="admin-subnav">
+          <li><a class="boton" href="productos.html" aria-current="page">Productos y existencias</a></li>
+          <li><a class="boton boton--secundario" href="pedidos.html">Gestión de pedidos</a></li>
+        </ul>
+      </nav>
+
+      <div class="admin-resumen" aria-label="Resumen de inventario">
+        <div class="tarjeta-metrica">
+          <span class="tarjeta-metrica__valor" id="metrica-total-productos">0</span>
+          <span class="tarjeta-metrica__etiqueta">Productos registrados</span>
+        </div>
+        <div class="tarjeta-metrica">
+          <span class="tarjeta-metrica__valor" id="metrica-productos-activos">0</span>
+          <span class="tarjeta-metrica__etiqueta">Activos en catálogo</span>
+        </div>
+        <div class="tarjeta-metrica">
+          <span class="tarjeta-metrica__valor" id="metrica-productos-agotados">0</span>
+          <span class="tarjeta-metrica__etiqueta">Sin stock (0 uds.)</span>
+        </div>
+      </div>
+
+      <div id="mensaje-admin-productos" class="alerta alerta--exito" role="status" hidden></div>
+
+      <div class="tabla-contenedor">
+        <table class="tabla-admin">
+          <thead>
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">Producto</th>
+              <th scope="col">Categoría</th>
+              <th scope="col">Formato</th>
+              <th scope="col">Precio</th>
+              <th scope="col">Existencias (Stock)</th>
+              <th scope="col">Estado</th>
+              <th scope="col">Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="cuerpo-tabla-productos"></tbody>
+        </table>
+      </div>
+
+      <template id="plantilla-fila-producto">
+        <tr>
+          <td data-etiqueta="ID" class="celda-id"></td>
+          <td data-etiqueta="Producto">
+            <div class="producto-miniatura">
+              <img class="producto-miniatura__img" src="../assets/img/favicon.svg" alt="Envase del producto">
+              <div>
+                <strong class="celda-nombre"></strong>
+                <div class="texto-secundario celda-variedad"></div>
+              </div>
+            </div>
+          </td>
+          <td data-etiqueta="Categoría" class="celda-categoria"></td>
+          <td data-etiqueta="Formato" class="celda-formato"></td>
+          <td data-etiqueta="Precio" class="celda-precio"></td>
+          <td data-etiqueta="Existencias">
+            <form class="control-en-linea form-stock" action="productos.html" method="post" novalidate>
+              <label class="visualmente-oculto label-stock" for="stock-plantilla">Stock</label>
+              <input type="number" id="stock-plantilla" class="input-corto input-stock" name="stock" min="0" max="9999" step="1" required>
+              <button type="submit" class="boton boton--secundario">Guardar</button>
+            </form>
+          </td>
+          <td data-etiqueta="Estado">
+            <span class="etiqueta celda-estado"></span>
+          </td>
+          <td data-etiqueta="Acciones">
+            <div class="control-en-linea">
+              <a class="boton boton--secundario enlace-editar" href="producto-form.html">Editar</a>
+              <button type="button" class="boton boton--secundario boton-baja-logica"></button>
+            </div>
+          </td>
+        </tr>
+      </template>
+    </section>
+  </main>
+
+  <!-- pie-comun: inicio (B) -->
+  <footer class="pie">
+    <p class="pie__marca">Oleum · Aceite de Oliva Virgen Extra</p>
+    <p class="pie__aviso">Práctica de Arquitectura y Diseño de Sistemas Web y C/S · Curso 2026/2027</p>
+  </footer>
+  <!-- pie-comun: fin -->
+</body>
+</html>

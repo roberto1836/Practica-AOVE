@@ -1,0 +1,89 @@
+# Historias de usuario · Autenticación y Administrador (Parte C)
+
+Formato: «Como [actor], quiero [acción], para [objetivo]». Cada criterio de aceptación se puede comprobar con un sí o un no. Los marcados como **(error)** cubren el camino alternativo o de validación. Los identificadores siguen el esquema del grupo: `VIS` visitante, `CLI` cliente, `ADM` administrador.
+
+---
+
+## VIS-14 · Registrarse como nuevo cliente
+
+Como visitante, quiero registrarme con mi nombre, correo electrónico, teléfono, dirección y contraseña, para obtener una cuenta de cliente y poder realizar pedidos en Oleum.
+
+- El formulario (`registro.html`) solicita nombre completo, correo electrónico, teléfono (9 dígitos), dirección postal, contraseña (mínimo 8 caracteres) y repetición de contraseña.
+- Al completar el registro con datos válidos, se da de alta el usuario con rol `'cliente'` y `activo: true`, y se redirige a `login.html?registrado=1` mostrando un aviso de confirmación.
+- **(error)** Si intento registrarme con un correo que ya existe (ej. `elena@oleum.es`), el sistema impide el alta, marca el campo con `aria-invalid="true"`, muestra el error junto al email y conserva todos los demás datos introducidos (caso obligatorio 7.1).
+- **(error)** Si las dos contraseñas no coinciden o algún campo incumple las reglas de formato, se muestra un mensaje específico junto a cada campo afectado sin borrar lo escrito y el foco pasa al primer campo con error.
+
+---
+
+## VIS-15 · Iniciar y cerrar sesión según el rol
+
+Como visitante o usuario registrado, quiero iniciar y cerrar sesión en la tienda, para acceder a las opciones propias de mi rol (cliente o administrador).
+
+- Al iniciar sesión con credenciales válidas de un usuario con `activo: true`, se guarda `{ id, nombre, rol }` en la sesión y la cabecera común actualiza sus enlaces según el rol.
+- Si la URL incluye un parámetro `?volver=` con una ruta relativa interna válida, tras iniciar sesión se redirige automáticamente a dicha página.
+- Al pulsar «Cerrar sesión» en la cabecera, se limpia la sesión activa y se redirige a `index.html`.
+- **(error)** Si el correo no existe o la contraseña no coincide, se deniega el acceso con un mensaje genérico sin revelar qué dato falló (caso obligatorio 7.1).
+- **(error)** Si la cuenta tiene `activo: false`, se impide el acceso informando de que la cuenta está desactivada.
+- **(error)** Si el parámetro `?volver=` apunta a una URL externa (`https://...`, `//...` o `..`), se descarta y se redirige a la ruta interna por defecto (acuerdo 6).
+
+---
+
+## ADM-01 · Consultar el listado completo de productos y existencias
+
+Como administrador, quiero ver una tabla con todos los aceites del catálogo (incluidos los agotados y los dados de baja), para supervisar el inventario de la tienda.
+
+- En `admin/productos.html` se muestra una tabla con ID, imagen, nombre, productor, categoría, formato, precio, stock editable, estado (`Activo` / `Inactivo`) y acciones.
+- Un contador superior resume el total de productos, cuántos están activos y cuántos en baja lógica.
+- **(error)** Si un visitante sin sesión o un usuario con rol `'cliente'` intenta acceder a `admin/productos.html`, se oculta el panel y se muestra el aviso de acceso restringido (caso obligatorio 7.1).
+
+---
+
+## ADM-02 · Actualizar el stock de un producto en línea
+
+Como administrador, quiero modificar las existencias de un aceite directamente desde la tabla de productos, para actualizar el inventario con rapidez.
+
+- Cada fila de `admin/productos.html` incluye un campo numérico de stock con su botón «Guardar».
+- Al guardar una cantidad entera mayor o igual que 0, se actualiza el stock y se muestra un aviso de confirmación accesible (`role="status"`).
+- **(error)** Si se introduce un stock negativo o no entero, `validacion.js` marca el campo con `aria-invalid="true"`, muestra el mensaje de error en la fila y no guarda el cambio (caso obligatorio 7.1).
+
+---
+
+## ADM-03 · Dar de alta o editar un producto del catálogo
+
+Como administrador, quiero crear un nuevo aceite o modificar los datos de uno existente mediante un formulario completo, para mantener al día la oferta de la tienda.
+
+- En `admin/producto-form.html` puedo introducir o editar nombre, productor, origen, categoría, variedad, formato en ml, precio en euros, stock, ruta de imagen, descripción y estado activo.
+- Al guardar un formulario válido, se persiste el producto y se redirige a `admin/productos.html?guardado=ok`.
+- **(error)** Si el precio es menor o igual que 0, el formato es menor de 50 ml, el stock es negativo o falta un campo obligatorio, se cancela el envío, se señala cada campo con error y se conservan todos los datos escritos (caso obligatorio 7.1).
+- **(error)** Si se accede a `admin/producto-form.html?id=999` con un identificador que no existe, se oculta el formulario y se muestra un aviso informando de que el producto no existe con enlace para volver al listado (caso obligatorio 7.1).
+
+---
+
+## ADM-04 · Aplicar baja lógica y reactivación de productos
+
+Como administrador, quiero desactivar o reactivar un producto sin borrarlo físicamente, para retirarlo del catálogo público sin romper los pedidos históricos que lo incluyan.
+
+- Al pulsar «Desactivar» en `admin/productos.html`, el producto pasa a `activo: false`, su insignia cambia a «Inactivo (Baja)» y deja de mostrarse en el catálogo público, pero sigue visible en el panel de administración y en los pedidos antiguos.
+- Al pulsar «Reactivar» sobre un producto inactivo, vuelve a `activo: true`.
+
+---
+
+## ADM-05 · Consultar y actualizar el estado de los pedidos
+
+Como administrador, quiero listar todos los pedidos realizados por los clientes y cambiar su estado, para reflejar el avance real desde su recepción hasta la entrega o cancelación.
+
+- En `admin/pedidos.html` se muestra una tabla con el identificador del pedido, cliente y correo, fecha, dirección de envío, número de unidades, importe total, insignia del estado actual y selector de nuevo estado.
+- Puedo cambiar el estado de cualquier pedido entre `'recibido'`, `'en_preparacion'`, `'enviado'`, `'entregado'` y `'cancelado'` y pulsar «Actualizar», persistiendo el cambio y anunciándolo en pantalla.
+- **(error)** Si un visitante o un usuario con rol `'cliente'` intenta abrir `admin/pedidos.html`, el sistema bloquea la vista y muestra el mensaje de acceso restringido (caso obligatorio 7.1).
+
+---
+
+## Trazabilidad: historia → página
+
+| Página | Historias |
+| --- | --- |
+| Registro (`registro.html`) | VIS-14 |
+| Iniciar sesión (`login.html`) | VIS-15, VIS-12 |
+| Productos admin (`admin/productos.html`) | ADM-01, ADM-02, ADM-04 |
+| Alta y edición de producto (`admin/producto-form.html`) | ADM-03 |
+| Pedidos admin (`admin/pedidos.html`) | ADM-05 |

@@ -1,0 +1,20 @@
+# Sistema operativo
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editores
+.vscode/
+.idea/
+
+# Node (solo se usa para las pruebas automáticas)
+node_modules/
+
+# NetBeans y Maven (Parte 2)
+nbproject/private/
+build/
+dist/
+target/
+
+# Registros
+*.log

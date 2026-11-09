@@ -1,0 +1,111 @@
+# Memoria · Secciones de la Parte C
+
+**Autor:** Carlos Hernán Sánchez (parte C del reparto: autenticación, administración, validación de formularios, calidad y despliegue en Tomcat).
+
+Estas secciones se integran en la memoria común del grupo. Los anexos detallados se encuentran en la misma carpeta `memoria/`:
+- **Anexo A:** historias de usuario de autenticación y administración (`analisis/historias-admin.md`).
+- **Anexo B:** inventario de páginas y mapa de navegación (`analisis/inventario-y-mapa.md`).
+- **Anexo C:** matriz de pruebas y verificación de calidad de la Parte C (`analisis/pruebas-parte-c.md`).
+
+---
+
+## 1. Alcance y responsabilidades de la Parte C
+
+Siguiendo el reparto acordado en el equipo (`ACUERDOS.md`), la Parte C abarca la gestión de usuarios y sesiones, el panel de administración de la tienda, las utilidades transversales de validación y la puesta en producción sobre Apache Tomcat:
+
+1. **Páginas desarrolladas:**
+   - `login.html`: inicio de sesión con soporte de retorno seguro (`?volver=`), aviso tras registro y accesos rápidos de demostración para los distintos roles.
+   - `registro.html`: formulario de alta de nuevos clientes con validación en vivo y control de correo duplicado.
+   - `admin/productos.html`: panel de gestión del catálogo para el administrador, con edición rápida de existencias en línea y alta/reactivación o baja lógica (`activo: true/false`).
+   - `admin/producto-form.html`: formulario de creación y edición completa de aceites, con precarga por parámetro `?id=N` y control de productos inexistentes.
+   - `admin/pedidos.html`: listado global de pedidos de todos los clientes con actualización de estado en tiempo real.
+2. **Módulos compartidos y estilos propios:**
+   - `assets/js/sesion.js`: gestión de sesión simulada en `sessionStorage`, alta de usuarios, control de acceso por rol (`verificarAcceso`) y validación de rutas de retorno (`obtenerRutaVolverSegura`).
+   - `assets/js/validacion.js`: motor común de validación de formularios en cliente reutilizado por la Parte B (`perfil.html`, `confirmacion.html`) y la Parte C.
+   - `assets/js/datos/usuarios.js`: juego de datos inicial con 2 clientes activos, 1 administrador y 1 cuenta desactivada para pruebas de baja lógica (requisito 6.3.1).
+   - `assets/js/admin/cabecera-sesion.js`: sincronización dinámica de los enlaces de la cabecera común según el estado de sesión y el rol activo.
+   - `assets/css/admin.css`: hoja de estilos específica para autenticación y administración basada en las variables de `base.css`.
+3. **Coordinación, despliegue y entrega:**
+   - Elaboración del `README.md` general con instrucciones de ejecución, credenciales de prueba y acuerdos del grupo, verificación en Apache Tomcat 10.1+ y empaquetado final.
+
+---
+
+## 2. Decisiones de diseño y arquitectura del front-end
+
+### 2.1 Modelo Vista Controlador (MVC) en el cliente
+
+Al igual que en las Partes A y B, el código de la Parte C separa responsabilidades en capas para que la migración a la Parte 2 (Servlets, JSP, filtros y DAO) sea directa:
+
+| Capa | Archivos en la Parte 1 | Responsabilidad | Equivalente en la Parte 2 |
+| --- | --- | --- | --- |
+| **Modelo** | `datos/usuarios.js`, `sesion.js` | Usuarios iniciales, persistencia temporal en `sessionStorage` de sesión, altas y modificaciones de admin | Tabla `usuario`, `UsuarioDAO`, `ProductoDAO`, `PedidoDAO` y `HttpSession` |
+| **Lógica** | `validacion.js`, `verificarAcceso`, `obtenerRutaVolverSegura` | Validación de campos, reglas de negocio (stock $\ge 0$, precio $> 0$, email único) y autorización por rol | Validación en servidor y filtro `AuthFilter` (`/admin/*`) |
+| **Vista** | `login.html`, `registro.html`, `admin/*.html` con `<template>` y `admin.css` | Marcado semántico, formularios accesibles y tablas de administración | Vistas JSP con JSTL (`<c:forEach>`, `<c:out>`, `<c:if>`) |
+| **Controlador** | `admin/autenticacion.js`, `productos-admin.js`, `pedidos-admin.js`, `cabecera-sesion.js` | Lectura de parámetros URL, manejo de eventos `submit` y coordinación entre modelo y vista | Servlets (`POST /login`, `POST /registro`, `POST /logout`, `GET/POST /admin/*`) |
+
+### 2.2 Decisiones principales de implementación
+
+| Decisión | Por qué | En la Parte 2 |
+| --- | --- | --- |
+| Sesión activa almacenada en `sessionStorage` (`oleum_sesion_actual`) exponiendo `usuarioActual()` | Cumple la interfaz acordada con A y B (`{ id, nombre, rol }`) y permite probar distintos roles sin conflictos permanentes entre sesiones de navegador | Objeto de usuario guardado en `HttpSession` tras autenticar contra la base de datos |
+| Prevención de redirección abierta en `obtenerRutaVolverSegura(rutaVolver)` | El login recibe `?volver=...` desde la ficha o el carrito; la función rechaza rutas absolutas (`/`, `\\`), esquemas externos (`://`, `javascript:`) o saltos de directorio (`..`) | Validación del parámetro de retorno en el `LoginServlet` antes de `response.sendRedirect` |
+| Motor de validación declarativo y programático (`validacion.js`) con `novalidate` | Combina la API nativa `ValidityState` con validadores de negocio personalizados, inserta mensajes en español junto al campo sin borrar lo escrito y mueve el foco al primer error | Doble validación: `validacion.js` en el cliente por usabilidad y comprobación obligatoria en el Servlet |
+| Baja lógica de productos y cuentas (`activo: false`) | Un producto presente en pedidos históricos no puede borrarse físicamente sin romper la integridad referencial (apartado 3.3); un usuario inactivo conserva su historial pero no puede iniciar sesión | Columna `activo BOOLEAN` en las tablas `producto` y `usuario` |
+| Bloqueo de seguridad en `/admin` mediante `verificarAcceso('admin')` | Si un visitante o un cliente abre directamente `admin/productos.html`, `admin/producto-form.html` o `admin/pedidos.html`, el panel permanece oculto (`hidden`) y se muestra `#bloqueo-acceso` | Filtro `AdminAuthFilter` en el servidor que devuelve HTTP 403 Forbidden o redirige a `/login` |
+| Clonación de `<template>` con asignación exclusiva por `textContent` | Evita por completo vulnerabilidades de inyección XSS al renderizar nombres de productos, clientes o direcciones en las tablas de administración | Etiquetas `<c:out>` de JSTL en las vistas JSP |
+
+---
+
+## 3. Sistema visual y diseño adaptable (`admin.css`)
+
+La hoja `assets/css/admin.css` extiende el sistema visual de `base.css` utilizando exclusivamente sus variables de color, tipografía y espaciado:
+
+- **Tarjetas de autenticación y botones de demostración:** `login.html` y `registro.html` emplean contenedores centrados de ancho controlado (`30rem` y `36rem`) e incluyen en el login un bloque de carga rápida de credenciales (Cliente, Administrador y Cuenta inactiva) para agilizar la defensa en el laboratorio.
+- **Formulario de producto en rejilla adaptable:** en `admin/producto-form.html`, los campos se apilan en una sola columna en móvil (375 px) y pasan a una rejilla CSS Grid de dos columnas a partir del punto de corte de `768px`, reservando el ancho completo para los campos largos (nombre, ruta de imagen y descripción).
+- **Tablas de administración sin desbordamiento en móvil (375 px):** por debajo de `768px`, las tablas `.tabla-admin` ocultan su cabecera `<thead>` y transforman cada fila `<tr>` en una tarjeta vertical, inyectando el nombre de cada columna mediante `td::before { content: attr(data-etiqueta); }`. Así se evita cualquier desplazamiento horizontal en pantallas de 375 px manteniendo la semántica `<table>` en escritorio (1280 px).
+- **Insignias de estado con alto contraste:** las etiquetas `.badge-estado` distinguen visualmente y por texto los productos activos e inactivos y los cinco estados de un pedido (`recibido`, `en_preparacion`, `enviado`, `entregado`, `cancelado`).
+
+---
+
+## 4. Accesibilidad (WCAG 2.1 AA)
+
+Se han aplicado las pautas de nivel AA de WCAG 2.1 en todas las vistas de usuario y administración:
+
+| Principio | Medidas aplicadas en la Parte C |
+| --- | --- |
+| **Perceptible** | Ratio de contraste superior a 4,5:1 en textos e insignias de estado y 3:1 en bordes de formulario (`--color-borde-campo: #7d7866`). Los estados de producto (Activo/Inactivo) y de pedido incluyen siempre etiqueta textual, sin depender solo del color. |
+| **Operable** | Enlace «Saltar al contenido» como primer elemento tabulable en las 5 páginas. Contorno `:focus-visible` de 3 px en oro viejo (`--color-acento`). Botones y selectores en línea con altura mínima táctil de 44 px (`--tamano-tactil`). Al fallar un envío, el foco salta automáticamente al primer campo inválido. |
+| **Comprensible** | Atributo `lang="es"` en todos los documentos. Cada `<input>`, `<select>` y `<textarea>` tiene su `<label for="...">` explícito y ayudas de formato vinculadas por `aria-describedby`. Ante un error de validación nunca se borran los datos ya introducidos por el usuario. |
+| **Robusto** | Al clonar filas desde `<template>` en `admin/productos.html` y `admin/pedidos.html`, los atributos `id` y `for` de los controles en línea se generan dinámicamente por fila (`stock-prod-{id}`, `estado-pedido-{id}`), garantizando IDs únicos en el DOM. Uso de `aria-invalid="true"`, `role="alert"` y `aria-live="polite"`. |
+
+---
+
+## 5. Validación, pruebas y despliegue en Apache Tomcat
+
+| Comprobación | Resultado |
+| --- | --- |
+| Validador HTML del W3C (Nu Html Checker) | 0 errores y 0 avisos en las 5 páginas de la Parte C |
+| Validador CSS del W3C (`admin.css` y `base.css`) | 0 errores |
+| Casos de prueba de aceptación y errores obligatorios (apartado 7.1) | 10 de 10 correctos (`CP-C01` a `CP-C10`, detallados en el anexo C) |
+| Comprobación en viewports de 375 px y 1280 px | Sin solapamientos ni barra de desplazamiento horizontal; tablas transformadas en tarjetas en 375 px |
+| Despliegue y navegación en Apache Tomcat 10.1+ | Operativo bajo el *context path* `/oleum` (`http://localhost:8080/oleum/index.html`) sin enlaces ni recursos rotos |
+
+### Despliegue en Apache Tomcat
+De acuerdo con el requisito de despliegue de la práctica, todas las rutas del proyecto (enlaces, hojas CSS, módulos JS e imágenes, tanto desde la raíz `/proyecto` como desde `/proyecto/admin/`) se han definido como **rutas relativas** sin barra inicial `/`. Esto permite desplegar la carpeta `proyecto/` dentro de `webapps/oleum/` en Apache Tomcat (mediante los scripts `desplegar-tomcat.sh` en Linux/macOS o `herramientas/desplegar-tomcat.ps1` en Windows) y servir la aplicación bajo el contexto `http://localhost:8080/oleum/` sin que falle ninguna importación de ES Modules ni ninguna redirección.
+
+---
+
+## 6. Limitaciones y preparación para la Parte 2
+
+- **Contraseñas y sesión:** en la Parte 1 las credenciales de prueba se comprueban en cliente y la sesión vive en `sessionStorage`. En la Parte 2 las contraseñas se almacenarán como `hash_password` (BCrypt/PBKDF2) en la tabla `usuario` y la sesión se gestionará en el servidor mediante `HttpSession`.
+- **Cierre de sesión:** en la Parte 2 el botón «Cerrar sesión» de la cabecera enviará una petición `POST /logout` que invalidará la sesión en el servidor antes de redirigir a inicio.
+- **Persistencia de cambios de administración:** las altas y ediciones de productos y los cambios de estado de pedidos que hoy se guardan en `sessionStorage` pasarán a ejecutarse mediante `INSERT` y `UPDATE` parametrizados (`PreparedStatement`) en `ProductoDAO` y `PedidoDAO`, aplicando el patrón *Post/Redirect/Get (PRG)*.
+
+---
+
+## 7. Contribución de la Parte C (Carlos Hernán Sánchez)
+
+- **Páginas desarrolladas:** Maquetación HTML5 semántica y controladores JavaScript de `login.html`, `registro.html`, `admin/productos.html`, `admin/producto-form.html` y `admin/pedidos.html`.
+- **Módulos transversales:** Desarrollo de `assets/js/sesion.js`, `assets/js/validacion.js`, `assets/js/datos/usuarios.js` y `assets/js/admin/cabecera-sesion.js`.
+- **Estilos de administración y acceso:** Creación de `assets/css/admin.css` con diseño adaptable de formularios y tablas responsivas por tarjetas en móvil.
+- **Calidad, despliegue y documentación:** Validación W3C de HTML y CSS, matriz de pruebas de los casos obligatorios del apartado 7.1, verificación del despliegue en Apache Tomcat, redacción del `README.md` y de la memoria técnica de la Parte C.

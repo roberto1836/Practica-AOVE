@@ -1,0 +1,37 @@
+/* Estilos de la página temporal de revisión de ilustraciones (no se entrega).
+   Lleva colores y medidas escritos a mano a propósito: no depende de base.css,
+   que todavía no existe, y se borrará cuando ya no haga falta. */
+
+body {
+  margin: 0;
+  padding: 1rem;
+  font-family: system-ui, sans-serif;
+  background: #f4f1ea;
+  color: #222;
+}
+
+.rejilla {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+figure {
+  margin: 0;
+  padding: 0.5rem;
+  background: #fff;
+  border: 1px solid #ddd;
+}
+
+img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+figcaption {
+  font-size: 0.85rem;
+}

@@ -1,0 +1,31 @@
+# Pruebas y calidad · Parte C (Usuarios, administración y despliegue)
+
+La Parte C se ha verificado comprobando los criterios de aceptación y casos de error obligatorios del apartado 7.1 en el navegador, la validación estricta de HTML5 y CSS en el W3C, la accesibilidad por teclado y contraste WCAG 2.1 AA, y el despliegue en Apache Tomcat 10.1+.
+
+| Nivel | Herramienta | Resultado |
+| --- | --- | --- |
+| Criterios de aceptación y errores (7.1) | Navegador Chromium sobre Apache Tomcat / Live Server | 10 de 10 casos correctos, sin errores en consola |
+| Estructura HTML5 | Validador del W3C (validator.w3.org/nu) | 0 errores y 0 avisos en las 5 páginas de C |
+| Hojas de estilo CSS (`admin.css`, `base.css`) | Validador CSS del W3C (jigsaw.w3.org) | 0 errores; contraste WCAG 2.1 AA cumplido |
+| Accesibilidad y teclado | Recorrido con Tab, Shift+Tab, Enter y Escape | Orden lógico, foco visible y salto al primer campo con error |
+| Diseño adaptable (Responsive) | Viewports de 375 px (móvil) y 1280 px (escritorio) | Sin desbordamiento horizontal; tablas en tarjetas a 375 px |
+| Despliegue en servidor | Apache Tomcat 10.1+ (`/oleum`) | Rutas relativas y módulos ES6 funcionando sin fallos |
+
+---
+
+## Matriz de casos de prueba de la Parte C
+
+| Id | Historia | Datos y pasos | Resultado esperado | Resultado obtenido |
+| --- | --- | --- | --- | --- |
+| P-C01 | VIS-14 (error · 7.1) | Abrir `registro.html`, introducir `email = elena@oleum.es` y el resto de campos válidos | Se bloquea el alta, se marca `aria-invalid="true"` en el email indicando que ya existe y se conservan nombre, teléfono y dirección | Correcto |
+| P-C02 | VIS-14 (error) | Completar `registro.html` con `password = Cliente123!` y `passwordRepetir = Otra1234!` | `validacion.js` señala el error junto a «Repetir contraseña», mueve el foco al campo y mantiene los datos | Correcto |
+| P-C03 | VIS-14 | Registrar un correo nuevo válido (`nuevo@oleum.es`) | Se crea el usuario en sesión y redirige a `login.html?registrado=1` con alerta de éxito | Correcto |
+| P-C04 | VIS-15 (error · 7.1) | Abrir `login.html`, introducir `elena@oleum.es` y clave errónea `ClaveFalsa1` | No se inicia sesión; se muestra alerta de error genérica sin revelar qué campo falló | Correcto |
+| P-C05 | VIS-15 (error) | Pulsar el botón demo «Cuenta inactiva» (`inactivo@oleum.es`) y enviar | Se deniega el acceso informando de que la cuenta está desactivada (`activo: false`) | Correcto |
+| P-C06 | VIS-15 (error · Acuerdo 6) | Iniciar sesión desde `login.html?volver=[https://sitio-externo.com](https://sitio-externo.com)` | `obtenerRutaVolverSegura()` descarta el dominio externo y redirige a una ruta interna segura | Correcto |
+| P-C07 | ADM-02 / ADM-03 (error · 7.1) | En `admin/producto-form.html` o en la tabla de `admin/productos.html`, indicar `precio = 0` o `stock = -2` | Se impide guardar, se marca el campo con `aria-invalid="true"` y se conserva el resto del formulario | Correcto |
+| P-C08 | ADM-03 (error · 7.1) | Con sesión de admin, abrir `admin/producto-form.html?id=999` (inexistente) | Se oculta el formulario y se muestra alerta indicando que el producto `#999` no existe | Correcto |
+| P-C09 | ADM-04 | En `admin/productos.html`, pulsar «Desactivar» en el producto `#1` | Cambia a «Inactivo (Baja)» (`activo: false`) sin borrarse de la tabla y desaparece del catálogo público | Correcto |
+| P-C10 | ADM-01 / ADM-05 (error · 7.1) | Iniciar sesión como cliente (`elena@oleum.es`) y abrir `admin/productos.html` o `admin/pedidos.html` | `verificarAcceso('admin')` mantiene oculto el panel y muestra la sección `#bloqueo-acceso` | Correcto |
+| P-C11 | ADM-05 | Como admin en `admin/pedidos.html`, cambiar el pedido `#1001` a `enviado` y pulsar «Actualizar» | El estado e insignia pasan a «Enviado», se persiste en sesión y se anuncia confirmación accesible | Correcto |
+| P-C12 | General (5.3) | Inspeccionar las 5 páginas a 375 px y 1280 px y recorrerlas con Tab | En 375 px las tablas `.tabla-admin` se ven como tarjetas sin scroll horizontal; foco siempre visible | Correcto |

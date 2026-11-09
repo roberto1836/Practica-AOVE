@@ -1,0 +1,775 @@
+/* =============================================================================
+   catalogo.css (A): estilos de la portada, el catálogo y la ficha de producto.
+   Solo usa las variables de base.css, así que si B cambia colores o tipografías,
+   estas páginas cambian con él. Mobile-first: los estilos base son para móvil
+   y las media queries amplían a partir de 768 px.
+   ============================================================================= */
+
+/* ---------- Componentes compartidos por las tres páginas ---------- */
+
+/* Rejilla de productos: en móvil caben 2 tarjetas por fila; en escritorio,
+   3 en el catálogo (9 por página = 3 × 3) y 4 en la portada. */
+.rejilla-productos {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 9.5rem), 1fr));
+  gap: var(--espacio-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tarjeta-producto {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--espacio-1);
+  height: 100%;
+  padding: var(--espacio-3) var(--espacio-3) var(--espacio-4);
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-lg);
+  background-color: var(--color-superficie);
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+
+.tarjeta-producto:hover,
+.tarjeta-producto:focus-within {
+  box-shadow: var(--sombra);
+  transform: translateY(-2px);
+}
+
+.tarjeta-producto__imagen {
+  width: 100%;
+  aspect-ratio: 1;
+  margin-bottom: var(--espacio-2);
+  border-radius: var(--radio);
+  background-color: var(--color-fondo);
+}
+
+.tarjeta-producto__nombre {
+  margin: 0;
+  font-size: var(--texto-lg);
+}
+
+.tarjeta-producto__enlace {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Toda la tarjeta es clicable sin repetir enlaces: el ::after del único enlace
+   (el nombre) se estira sobre la tarjeta. El lector de pantalla sigue oyendo un solo enlace. */
+.tarjeta-producto__enlace::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+}
+
+.tarjeta-producto__enlace:focus-visible {
+  outline: none;
+}
+
+.tarjeta-producto__enlace:focus-visible::after {
+  outline: 3px solid var(--color-acento);
+  outline-offset: 2px;
+}
+
+.tarjeta-producto__detalle {
+  margin: 0;
+  font-size: var(--texto-sm);
+  color: var(--color-texto-suave);
+}
+
+/* margin-top: auto empuja el precio al fondo: así los precios quedan alineados
+   aunque unos nombres ocupen una línea y otros dos. */
+.tarjeta-producto__precio {
+  margin: auto 0 0;
+  padding-top: var(--espacio-2);
+  font-size: var(--texto-lg);
+  font-weight: 700;
+  color: var(--color-primario-oscuro);
+}
+
+/* Disponibilidad: texto + punto de color. El estado no depende solo del color (WCAG 1.4.1). */
+.tarjeta-producto__disponibilidad,
+.ficha-producto__disponibilidad {
+  display: flex;
+  align-items: center;
+  gap: var(--espacio-2);
+  margin: 0;
+  font-size: var(--texto-sm);
+  font-weight: 600;
+  color: var(--color-exito);
+}
+
+.tarjeta-producto__disponibilidad::before,
+.ficha-producto__disponibilidad::before {
+  content: "";
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background-color: currentcolor;
+}
+
+/* data-disponible="no" lo pone vista.js en los agotados. */
+.tarjeta-producto[data-disponible="no"] .tarjeta-producto__disponibilidad,
+.ficha-producto[data-disponible="no"] .ficha-producto__disponibilidad {
+  color: var(--color-texto-suave);
+}
+
+.tarjeta-producto[data-disponible="no"] .tarjeta-producto__imagen {
+  opacity: 0.55;
+  filter: grayscale(60%);
+}
+
+/* Encabezado de sección con una línea fina de acento debajo. */
+.destacados > h2,
+.categorias > h2,
+.por-que > h2 {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espacio-2);
+  margin-bottom: var(--espacio-5);
+}
+
+.destacados > h2::after,
+.categorias > h2::after,
+.por-que > h2::after {
+  content: "";
+  width: 3rem;
+  height: 2px;
+  background-color: var(--color-acento);
+}
+
+/* ---------- Portada (index.html) ---------- */
+
+.portada {
+  display: grid;
+  gap: var(--espacio-5);
+  align-items: center;
+  margin-bottom: var(--espacio-8);
+  padding: var(--espacio-6) var(--espacio-5);
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-lg);
+  background:
+    radial-gradient(circle at 100% 0%, var(--color-primario-suave) 0%, transparent 55%),
+    linear-gradient(160deg, var(--color-superficie) 0%, var(--color-fondo) 100%);
+  overflow: hidden;
+}
+
+.portada__titulo {
+  max-width: 15ch;
+}
+
+.portada__presentacion {
+  max-width: 44ch;
+  margin-bottom: var(--espacio-5);
+  font-size: var(--texto-lg);
+  color: var(--color-texto-suave);
+}
+
+/* Composición decorativa con tres ilustraciones propias. Va en el CSS, no en el HTML,
+   porque no aporta información: un lector de pantalla no tiene nada que leer aquí. */
+.portada::after {
+  content: "";
+  min-height: 14rem;
+  background:
+    url("../img/productos/garrafa-picual-5-l.svg") right bottom / 48% no-repeat,
+    url("../img/productos/primer-dia-picual.svg") left bottom / 44% no-repeat,
+    url("../img/productos/eco-empeltre-val-alta.svg") center bottom / 48% no-repeat;
+}
+
+.portada__enlace {
+  justify-self: start;
+}
+
+.destacados,
+.categorias,
+.por-que {
+  margin-bottom: var(--espacio-8);
+}
+
+/* Accesos por categoría: tarjetas oscuras para que se distingan de los productos. */
+.lista-categorias {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+  gap: var(--espacio-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tarjeta-categoria {
+  position: relative;
+  height: 100%;
+  padding: var(--espacio-5) var(--espacio-5) var(--espacio-6);
+  border-radius: var(--radio-lg);
+  background-color: var(--color-primario-oscuro);
+  color: var(--color-sobre-oscuro-suave);
+  transition: background-color 0.2s;
+}
+
+.tarjeta-categoria:hover,
+.tarjeta-categoria:focus-within {
+  background-color: var(--color-primario);
+}
+
+.tarjeta-categoria__nombre {
+  margin-bottom: var(--espacio-2);
+  font-size: var(--texto-xl);
+}
+
+.tarjeta-categoria__enlace {
+  color: var(--color-sobre-oscuro);
+  text-decoration: none;
+}
+
+/* Igual que en la tarjeta de producto: un solo enlace que cubre toda la tarjeta. */
+.tarjeta-categoria__enlace::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+}
+
+.tarjeta-categoria__enlace:focus-visible {
+  outline: none;
+}
+
+.tarjeta-categoria__enlace:focus-visible::after {
+  outline: 3px solid var(--color-acento);
+  outline-offset: 3px;
+}
+
+/* Flecha dibujada con dos bordes: es decorativa, así que no lleva texto. */
+.tarjeta-categoria::after {
+  content: "";
+  position: absolute;
+  right: var(--espacio-5);
+  bottom: var(--espacio-5);
+  width: 0.6rem;
+  height: 0.6rem;
+  border-top: 2px solid var(--color-sobre-oscuro);
+  border-right: 2px solid var(--color-sobre-oscuro);
+  transform: rotate(45deg);
+}
+
+.tarjeta-categoria__descripcion {
+  margin: 0;
+  font-size: var(--texto-sm);
+}
+
+.por-que__lista {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+  gap: var(--espacio-5);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.por-que__punto {
+  padding-top: var(--espacio-4);
+  border-top: 1px solid var(--color-borde);
+}
+
+.por-que__titulo {
+  margin-bottom: var(--espacio-2);
+}
+
+.por-que__texto {
+  margin: 0;
+  color: var(--color-texto-suave);
+}
+
+/* ---------- Catálogo (productos.html) ---------- */
+
+.pagina-catalogo {
+  display: grid;
+  /* Sin esto, las filas se estirarían para llenar el min-height de <main> y se
+     encogerían al pintar los productos: la página «saltaría» al cargar (CLS). */
+  align-content: start;
+  gap: var(--espacio-4);
+}
+
+.pagina-catalogo > h1 {
+  margin-bottom: 0;
+}
+
+.filtros-alternar {
+  width: 100%;
+}
+
+/* En móvil, los filtros se pliegan tras el botón. Sin JS, sin-js.css anula esta regla
+   y los filtros se ven siempre (se carga desde un <noscript> en el <head>). */
+.filtros-alternar[aria-expanded="false"] + .filtros {
+  display: none;
+}
+
+.filtros {
+  display: grid;
+  gap: var(--espacio-5);
+  padding: var(--espacio-5);
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-lg);
+  background-color: var(--color-superficie);
+}
+
+.filtros__grupo {
+  display: grid;
+  gap: var(--espacio-2);
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.filtros__leyenda,
+.filtros__etiqueta {
+  margin-bottom: var(--espacio-1);
+  padding: 0;
+  font-size: var(--texto-sm);
+  font-weight: 600;
+  color: var(--color-primario-oscuro);
+}
+
+.filtros__opciones {
+  display: grid;
+  gap: var(--espacio-1);
+}
+
+.filtros__etiqueta-opcion {
+  display: flex;
+  align-items: center;
+  gap: var(--espacio-2);
+  min-height: 2rem;
+  cursor: pointer;
+}
+
+/* Precio: «Desde» y «Hasta» lado a lado, y el error debajo ocupando las dos columnas. */
+.filtros__grupo:has(.filtros__rango) {
+  grid-template-columns: 1fr 1fr;
+  column-gap: var(--espacio-3);
+}
+
+.filtros__rango {
+  display: grid;
+  gap: var(--espacio-1);
+}
+
+.filtros__error {
+  grid-column: 1 / -1;
+  margin: 0;
+  font-size: var(--texto-sm);
+  font-weight: 600;
+  color: var(--color-error);
+}
+
+.filtros__error:empty {
+  display: none;
+}
+
+.filtros__acciones {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--espacio-3);
+}
+
+.filtros__limpiar {
+  font-size: var(--texto-sm);
+}
+
+.resultados {
+  display: grid;
+  align-content: start;
+  gap: var(--espacio-4);
+  min-width: 0;
+}
+
+.resultados__contador {
+  margin: 0;
+  font-size: var(--texto-sm);
+  color: var(--color-texto-suave);
+}
+
+.filtros-aplicados {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--espacio-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.filtros-aplicados__elemento {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--espacio-1);
+  padding: var(--espacio-1) var(--espacio-1) var(--espacio-1) var(--espacio-3);
+  border-radius: var(--radio-pastilla);
+  background-color: var(--color-primario-suave);
+  color: var(--color-primario-oscuro);
+  font-size: var(--texto-sm);
+  font-weight: 500;
+}
+
+/* 28 px: por encima del mínimo de 24 px para objetivos táctiles (WCAG 2.5.8). */
+.filtros-aplicados__quitar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background-color: transparent;
+  font-size: var(--texto-lg);
+  line-height: 1;
+  cursor: pointer;
+}
+
+.filtros-aplicados__quitar:hover {
+  background-color: var(--color-superficie);
+}
+
+.resultados__vacio {
+  margin: 0;
+  padding: var(--espacio-6) var(--espacio-5);
+  border: 1px dashed var(--color-borde-campo);
+  border-radius: var(--radio-lg);
+  background-color: var(--color-superficie);
+  text-align: center;
+}
+
+.paginacion__lista {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--espacio-2);
+  margin: var(--espacio-4) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.paginacion__enlace {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--tamano-tactil);
+  min-height: var(--tamano-tactil);
+  padding: 0 var(--espacio-3);
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-pastilla);
+  background-color: var(--color-superficie);
+  color: var(--color-texto);
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.paginacion__enlace:hover {
+  border-color: var(--color-primario);
+  color: var(--color-primario-oscuro);
+}
+
+.paginacion__enlace[aria-current="page"] {
+  border-color: var(--color-primario);
+  background-color: var(--color-primario);
+  color: var(--color-sobre-oscuro);
+}
+
+/* ---------- Ficha de producto (producto.html) ---------- */
+
+.migas__lista {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--espacio-2);
+  margin: 0 0 var(--espacio-5);
+  padding: 0;
+  list-style: none;
+  font-size: var(--texto-sm);
+  color: var(--color-texto-suave);
+}
+
+/* Separador «›» dibujado con bordes: sin texto, así el lector de pantalla no lo lee. */
+.migas__elemento + .migas__elemento::before {
+  content: "";
+  display: inline-block;
+  width: 0.4rem;
+  height: 0.4rem;
+  margin-right: var(--espacio-2);
+  border-top: 1px solid currentcolor;
+  border-right: 1px solid currentcolor;
+  transform: rotate(45deg);
+  vertical-align: middle;
+}
+
+.migas__actual {
+  font-weight: 600;
+  color: var(--color-texto);
+}
+
+/* En móvil, todo en una columna y en el orden en que se decide una compra:
+   ver el aceite, su precio, si hay, comprarlo y, después, los detalles. */
+.ficha-producto {
+  display: grid;
+  grid-template-areas:
+    "imagen"
+    "nombre"
+    "precio"
+    "precio-litro"
+    "disponibilidad"
+    "compra"
+    "descripcion"
+    "datos";
+  gap: var(--espacio-3);
+}
+
+.ficha-producto__imagen {
+  grid-area: imagen;
+  width: 100%;
+  max-width: 28rem;
+  justify-self: center;
+  aspect-ratio: 1;
+  border-radius: var(--radio-lg);
+  background-color: var(--color-superficie);
+}
+
+.ficha-producto__nombre {
+  grid-area: nombre;
+  margin: 0;
+}
+
+.ficha-producto__precio {
+  grid-area: precio;
+  margin: 0;
+  font-size: var(--texto-xl);
+  font-weight: 700;
+  color: var(--color-primario-oscuro);
+}
+
+.ficha-producto__precio-litro {
+  grid-area: precio-litro;
+  margin: calc(-1 * var(--espacio-2)) 0 0;
+  font-size: var(--texto-sm);
+  color: var(--color-texto-suave);
+}
+
+.ficha-producto__disponibilidad {
+  grid-area: disponibilidad;
+}
+
+.ficha-producto__descripcion {
+  grid-area: descripcion;
+  margin: var(--espacio-2) 0 0;
+  font-size: var(--texto-lg);
+}
+
+.ficha-producto__datos {
+  grid-area: datos;
+  margin: 0;
+}
+
+.ficha-producto__dato {
+  display: grid;
+  grid-template-columns: 7rem 1fr;
+  gap: var(--espacio-3);
+  padding: var(--espacio-2) 0;
+  border-bottom: 1px solid var(--color-borde);
+}
+
+.ficha-producto__dato dt {
+  font-weight: 600;
+  color: var(--color-texto-suave);
+}
+
+.ficha-producto__dato dd {
+  margin: 0;
+}
+
+.formulario-compra,
+.formulario-compra__aviso {
+  grid-area: compra;
+}
+
+.formulario-compra {
+  display: grid;
+  gap: var(--espacio-3);
+  padding: var(--espacio-5);
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-lg);
+  background-color: var(--color-superficie);
+}
+
+/* Selector de cantidad: «Cantidad» arriba y, debajo, − [campo] + pegados. */
+.formulario-compra__cantidad {
+  display: grid;
+  grid-template-columns: var(--tamano-tactil) 5rem var(--tamano-tactil);
+  justify-content: start;
+  row-gap: var(--espacio-1);
+}
+
+.formulario-compra__etiqueta {
+  grid-column: 1 / -1;
+  font-size: var(--texto-sm);
+  font-weight: 600;
+  color: var(--color-primario-oscuro);
+}
+
+/* Más específico que «input[type="number"]» de base.css, para quitarle las esquinas redondeadas
+   y que quede pegado a los botones − y +. */
+.formulario-compra input.formulario-compra__campo {
+  border-radius: 0;
+  text-align: center;
+}
+
+.formulario-compra__cambiar {
+  min-height: var(--tamano-tactil);
+  border: 1px solid var(--color-borde-campo);
+  background-color: var(--color-fondo);
+  font-size: var(--texto-lg);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.formulario-compra__cambiar:first-of-type {
+  border-right: 0;
+  border-radius: var(--radio) 0 0 var(--radio);
+}
+
+.formulario-compra__cambiar:last-of-type {
+  border-left: 0;
+  border-radius: 0 var(--radio) var(--radio) 0;
+}
+
+.formulario-compra__cambiar:hover:not(:disabled) {
+  background-color: var(--color-primario-suave);
+}
+
+.formulario-compra__cambiar:disabled {
+  cursor: not-allowed;
+}
+
+.formulario-compra__error {
+  margin: 0;
+  font-size: var(--texto-sm);
+  font-weight: 600;
+  color: var(--color-error);
+}
+
+.formulario-compra__enviar {
+  width: 100%;
+}
+
+.formulario-compra__error:empty {
+  display: none;
+}
+
+.formulario-compra__aviso {
+  margin: 0;
+  padding: var(--espacio-4);
+  border-left: 4px solid var(--color-aviso);
+  border-radius: var(--radio);
+  background-color: var(--color-superficie);
+}
+
+.no-encontrado {
+  max-width: 36rem;
+  margin: 0 auto;
+  padding: var(--espacio-7) 0;
+  text-align: center;
+}
+
+.no-encontrado__texto {
+  font-size: var(--texto-lg);
+  color: var(--color-texto-suave);
+}
+
+/* ---------- A partir de 768 px (tablet y escritorio) ----------
+   El punto de corte va en px: las variables CSS no funcionan en las condiciones
+   de una media query (excepción anotada en CLAUDE.md). */
+@media (min-width: 768px) {
+  main {
+    padding-inline: var(--espacio-5);
+  }
+
+  /* Columnas fijas según el sitio: 2 en tablet; en escritorio, 3 en el catálogo y 4 en la portada. */
+  .rejilla-productos {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--espacio-5);
+  }
+
+  .portada {
+    grid-template-columns: 1.15fr 1fr;
+    padding: var(--espacio-8) var(--espacio-7);
+  }
+
+  .portada > * {
+    grid-column: 1;
+  }
+
+  /* La composición ocupa la columna derecha, a lo alto de todo el texto. */
+  .portada::after {
+    grid-column: 2;
+    grid-row: 1 / span 3;
+    align-self: stretch;
+    min-height: 20rem;
+    background-size: 56%, 50%, 54%;
+  }
+
+  /* Catálogo en dos columnas: filtros a la izquierda y resultados a la derecha. */
+  .pagina-catalogo {
+    grid-template-columns: 16rem minmax(0, 1fr);
+    column-gap: var(--espacio-6);
+    align-items: start;
+  }
+
+  .pagina-catalogo > h1 {
+    grid-column: 1 / -1;
+  }
+
+  .filtros-alternar {
+    display: none;
+  }
+
+  /* Misma especificidad que la regla que los pliega en móvil, pero va después: gana. */
+  .filtros-alternar[aria-expanded] + .filtros {
+    display: grid;
+  }
+
+  /* Ficha en dos columnas: la imagen a la izquierda, a lo alto de toda la información. */
+  .ficha-producto {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-areas:
+      "imagen nombre"
+      "imagen precio"
+      "imagen precio-litro"
+      "imagen disponibilidad"
+      "imagen descripcion"
+      "imagen compra"
+      "imagen datos";
+    grid-template-rows: repeat(6, auto) 1fr;
+    column-gap: var(--espacio-7);
+    align-items: start;
+  }
+
+  .ficha-producto__imagen {
+    max-width: none;
+    align-self: start;
+  }
+}
+
+/* ---------- A partir de 1024 px (escritorio) ----------
+   Segundo punto de corte: en tablet, la columna de resultados solo admite 2 tarjetas cómodas;
+   en escritorio caben 3 (9 por página = 3 filas completas) y la portada luce sus 4 destacados. */
+@media (min-width: 1024px) {
+  .pagina-catalogo .rejilla-productos {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .destacados .rejilla-productos {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
