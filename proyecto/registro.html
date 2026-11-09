@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crear cuenta · Oleum</title>
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/admin.css">
+  <script type="module" src="assets/js/admin/cabecera-sesion.js"></script>
+  <script type="module" src="assets/js/admin/autenticacion.js"></script>
+</head>
+<body>
+  <a class="saltar-al-contenido" href="#contenido-principal">Saltar al contenido</a>
+
+  <!-- cabecera-comun: inicio (B) -->
+  <header class="cabecera">
+    <a class="cabecera__logo" href="index.html">Oleum</a>
+    <nav class="cabecera__navegacion" aria-label="Principal">
+      <ul class="menu" id="menu-principal">
+        <li><a class="menu__enlace" href="index.html">Inicio</a></li>
+        <li><a class="menu__enlace" href="productos.html">Catálogo</a></li>
+        <li><a class="menu__enlace" href="carrito.html">Carrito</a></li>
+        <li id="item-nav-admin" hidden><a class="menu__enlace" href="admin/productos.html">Administración</a></li>
+        <li id="item-nav-pedidos" hidden><a class="menu__enlace" href="mis-pedidos.html">Mis pedidos</a></li>
+        <li id="item-nav-perfil" hidden><a class="menu__enlace" href="perfil.html">Mi perfil</a></li>
+        <li id="item-nav-login"><a class="menu__enlace" href="login.html">Iniciar sesión</a></li>
+        <li id="item-nav-registro"><a class="menu__enlace" href="registro.html" aria-current="page">Crear cuenta</a></li>
+        <li id="item-nav-logout" hidden>
+          <span id="nombre-usuario-sesion" class="cabecera__usuario" hidden></span>
+          <button type="button" class="boton boton--secundario" id="boton-cerrar-sesion">Cerrar sesión</button>
+        </li>
+      </ul>
+    </nav>
+  </header>
+  <!-- cabecera-comun: fin -->
+
+  <main id="contenido-principal">
+    <noscript>
+      <p class="aviso">Esta aplicación necesita JavaScript para validar el formulario de registro.</p>
+    </noscript>
+
+    <section class="contenedor-auth" aria-labelledby="titulo-registro">
+      <h1 id="titulo-registro">Crear cuenta de cliente</h1>
+      <p>Completa tus datos para realizar pedidos y consultar tu historial.</p>
+
+      <div id="mensaje-global-registro" class="alerta" role="status" hidden></div>
+
+      <form id="formulario-registro" action="login.html" method="post" novalidate>
+        <div class="formulario-grupo">
+          <label class="formulario-etiqueta" for="reg-nombre">Nombre y apellidos</label>
+          <input type="text" id="reg-nombre" name="nombre" autocomplete="name" required minlength="3" maxlength="80">
+        </div>
+
+        <div class="formulario-grupo">
+          <label class="formulario-etiqueta" for="reg-email">Correo electrónico</label>
+          <input type="email" id="reg-email" name="email" autocomplete="email" required aria-describedby="ayuda-email">
+          <p class="formulario-ayuda" id="ayuda-email">Prueba con elena@oleum.es para verificar el error de correo duplicado.</p>
+        </div>
+
+        <div class="formulario-grupo">
+          <label class="formulario-etiqueta" for="reg-telefono">Teléfono de contacto</label>
+          <input type="tel" id="reg-telefono" name="telefono" autocomplete="tel" required pattern="[6789][0-9]{8}" title="Teléfono de 9 dígitos comenzando por 6, 7, 8 o 9">
+        </div>
+
+        <div class="formulario-grupo">
+          <label class="formulario-etiqueta" for="reg-direccion">Dirección de envío completa</label>
+          <input type="text" id="reg-direccion" name="direccion" autocomplete="street-address" required minlength="10" maxlength="160">
+        </div>
+
+        <div class="formulario-grupo">
+          <label class="formulario-etiqueta" for="reg-password">Contraseña</label>
+          <input type="password" id="reg-password" name="password" autocomplete="new-password" required minlength="8" aria-describedby="ayuda-pass">
+          <p class="formulario-ayuda" id="ayuda-pass">Mínimo 8 caracteres.</p>
+        </div>
+
+        <div class="formulario-grupo">
+          <label class="formulario-etiqueta" for="reg-password-repetir">Repetir contraseña</label>
+          <input type="password" id="reg-password-repetir" name="passwordRepetir" autocomplete="new-password" required minlength="8">
+        </div>
+
+        <div class="formulario-acciones">
+          <button type="submit" class="boton">Registrarme</button>
+          <a class="boton boton--secundario" href="login.html">Ya tengo cuenta</a>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <!-- pie-comun: inicio (B) -->
+  <footer class="pie">
+    <p class="pie__marca">Oleum · Aceite de Oliva Virgen Extra</p>
+    <p class="pie__aviso">Práctica de Arquitectura y Diseño de Sistemas Web y C/S · Curso 2026/2027</p>
+  </footer>
+  <!-- pie-comun: fin -->
+</body>
+</html>

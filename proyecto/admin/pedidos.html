@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestión de pedidos · Oleum</title>
+  <link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../assets/css/base.css">
+  <link rel="stylesheet" href="../assets/css/admin.css">
+  <script type="module" src="../assets/js/admin/cabecera-sesion.js"></script>
+  <script type="module" src="../assets/js/admin/pedidos-admin.js"></script>
+</head>
+<body>
+  <a class="saltar-al-contenido" href="#contenido-principal">Saltar al contenido</a>
+
+  <!-- cabecera-comun: inicio (B) -->
+  <header class="cabecera">
+    <a class="cabecera__logo" href="../index.html">Oleum</a>
+    <nav class="cabecera__navegacion" aria-label="Principal">
+      <ul class="menu" id="menu-principal">
+        <li><a class="menu__enlace" href="../index.html">Inicio</a></li>
+        <li><a class="menu__enlace" href="../productos.html">Catálogo</a></li>
+        <li><a class="menu__enlace" href="../carrito.html">Carrito</a></li>
+        <li id="item-nav-admin"><a class="menu__enlace" href="productos.html" aria-current="page">Administración</a></li>
+        <li id="item-nav-pedidos" hidden><a class="menu__enlace" href="../mis-pedidos.html">Mis pedidos</a></li>
+        <li id="item-nav-perfil" hidden><a class="menu__enlace" href="../perfil.html">Mi perfil</a></li>
+        <li id="item-nav-login"><a class="menu__enlace" href="../login.html">Iniciar sesión</a></li>
+        <li id="item-nav-registro"><a class="menu__enlace" href="../registro.html">Crear cuenta</a></li>
+        <li id="item-nav-logout" hidden>
+          <span id="nombre-usuario-sesion" class="cabecera__usuario" hidden></span>
+          <button type="button" class="boton boton--secundario" id="boton-cerrar-sesion">Cerrar sesión</button>
+        </li>
+      </ul>
+    </nav>
+  </header>
+  <!-- cabecera-comun: fin -->
+
+  <main id="contenido-principal">
+    <noscript>
+      <p class="aviso">Esta aplicación necesita JavaScript para gestionar los pedidos.</p>
+    </noscript>
+
+    <section id="bloqueo-acceso" class="alerta alerta--error" hidden aria-labelledby="titulo-denegado-ped">
+      <h1 id="titulo-denegado-ped">Acceso restringido</h1>
+      <p id="texto-denegado">Solo los usuarios con rol de administrador pueden gestionar los pedidos.</p>
+      <p><a class="boton" href="../login.html?volver=admin/pedidos.html">Iniciar sesión como administrador</a></p>
+    </section>
+
+    <section id="panel-admin-pedidos" hidden aria-labelledby="titulo-admin-ped">
+      <div class="admin-cabecera">
+        <div>
+          <h1 id="titulo-admin-ped">Gestión de pedidos</h1>
+          <p>Consulta todos los pedidos de la tienda y actualiza su estado de preparación y envío.</p>
+        </div>
+      </div>
+
+      <nav aria-label="Secciones de administración">
+        <ul class="admin-subnav">
+          <li><a class="boton boton--secundario" href="productos.html">Productos y existencias</a></li>
+          <li><a class="boton" href="pedidos.html" aria-current="page">Gestión de pedidos</a></li>
+        </ul>
+      </nav>
+
+      <div id="mensaje-admin-pedidos" class="alerta alerta--exito" role="status" hidden></div>
+
+      <div class="tabla-contenedor">
+        <table class="tabla-admin">
+          <thead>
+            <tr>
+              <th scope="col">Pedido</th>
+              <th scope="col">Cliente</th>
+              <th scope="col">Fecha</th>
+              <th scope="col">Dirección de envío</th>
+              <th scope="col">Artículos</th>
+              <th scope="col">Total</th>
+              <th scope="col">Estado actual y cambio</th>
+            </tr>
+          </thead>
+          <tbody id="cuerpo-tabla-pedidos"></tbody>
+        </table>
+      </div>
+
+      <template id="plantilla-fila-pedido">
+        <tr>
+          <td data-etiqueta="Pedido" class="celda-id"></td>
+          <td data-etiqueta="Cliente" class="celda-cliente"></td>
+          <td data-etiqueta="Fecha" class="celda-fecha"></td>
+          <td data-etiqueta="Dirección" class="celda-direccion"></td>
+          <td data-etiqueta="Artículos" class="celda-unidades"></td>
+          <td data-etiqueta="Total" class="celda-total"></td>
+          <td data-etiqueta="Estado">
+            <form class="control-en-linea form-estado-pedido" action="pedidos.html" method="post">
+              <label class="visualmente-oculto label-estado" for="estado-plantilla">Estado del pedido</label>
+              <select id="estado-plantilla" class="select-estado" name="estado">
+                <option value="recibido">Recibido</option>
+                <option value="en_preparacion">En preparación</option>
+                <option value="enviado">Enviado</option>
+                <option value="entregado">Entregado</option>
+                <option value="cancelado">Cancelado</option>
+              </select>
+              <button type="submit" class="boton boton--secundario">Actualizar</button>
+            </form>
+          </td>
+        </tr>
+      </template>
+    </section>
+  </main>
+
+  <!-- pie-comun: inicio (B) -->
+  <footer class="pie">
+    <p class="pie__marca">Oleum · Aceite de Oliva Virgen Extra</p>
+    <p class="pie__aviso">Práctica de Arquitectura y Diseño de Sistemas Web y C/S · Curso 2026/2027</p>
+  </footer>
+  <!-- pie-comun: fin -->
+</body>
+</html>
