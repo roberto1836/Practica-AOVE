@@ -29,7 +29,7 @@ SALIDA = MEMORIA / 'memoria-parte-1.pdf'
 INTEGRANTES = [
     ('A', 'Noe López García'),
     ('B', 'Roberto Riofrío Ortega'),
-    ('C', '<span class="pendiente">Nombre de C</span>'),
+    ('C', 'Carlos Hernán Sánchez'),
 ]
 FECHA = '9 de noviembre de 2026'
 
@@ -58,7 +58,7 @@ ANEXOS = [
     ('A', 'Acuerdos del grupo', RAIZ / 'ACUERDOS.md'),
     ('B', 'Historias de usuario del visitante', MEMORIA / 'analisis' / 'historias-visitante.md'),
     ('C', 'Historias de usuario del cliente', MEMORIA / 'analisis' / 'historias-cliente.md'),
-    ('D', 'Historias de usuario del administrador', None),
+    ('D', 'Historias y pruebas de la Parte C', [MEMORIA / 'historias-usuario-parte-c.md', MEMORIA / 'seccion-c-calidad-pruebas.md']),
     ('E', 'Pruebas y calidad de la Parte A', MEMORIA / 'analisis' / 'pruebas-parte-a.md'),
     ('F', 'Pruebas y calidad de la Parte B', MEMORIA / 'analisis' / 'pruebas-parte-b.md'),
 ]
@@ -70,7 +70,7 @@ def a_html(texto):
     texto = texto.replace('<div class="pendiente">', '<div class="pendiente" markdown="1">')
     resultado = markdown.markdown(texto, extensions=EXTENSIONES)
     # Los identificadores (VIS-01, CLI-12, P-B03…) no se parten al final de la línea.
-    return re.sub(r'(>[^<]*)', lambda m: re.sub(r'\b((?:VIS|CLI|ADM|P)-[A-Z]?\d{2,3})\b',
+    return re.sub(r'(>[^<]*)', lambda m: re.sub(r'\b((?:VIS|CLI|ADM|HU|CP|P)-[A-Z]?\d{2,3})\b',
                                                 r'<span class="id">\1</span>', m.group(1)), resultado)
 
 
@@ -80,6 +80,8 @@ def preparar_anexo(letra, ruta):
     texto = re.sub(r'\A(\s*>.*\n)+', '', texto.lstrip('\n'))  # avisos de trabajo al principio
     if ruta.name == 'ACUERDOS.md':                          # el plan y lo pendiente ya no aplican
         texto = re.split(r'\n## 11\. ', texto)[0]
+    if ruta.name == 'historias-usuario-parte-c.md':
+        texto = re.sub(r'\ADocumento listo para entregar.*?\n\n', '', texto, flags=re.S)
     if ruta.name == 'historias-visitante.md':
         texto = re.sub(
             r'## CLI-01 .*?(?=## Trazabilidad)',
@@ -144,11 +146,9 @@ def main():
     partes = []
     for letra, titulo, ruta in ANEXOS:
         cabecera = f'<h1 class="anexo">Anexo {letra}. {titulo}</h1>'
-        if ruta is None:
-            partes.append(cabecera + '<div class="pendiente"><p>Pendiente: historias del administrador '
-                          '(y del registro y el inicio de sesión) de la Parte C.</p></div>')
-        else:
-            partes.append(cabecera + f'<div class="anexo-cuerpo">{a_html(preparar_anexo(letra, ruta))}</div>')
+        rutas = ruta if isinstance(ruta, list) else [ruta]
+        cuerpo = '\n\n'.join(preparar_anexo(letra, r) for r in rutas)
+        partes.append(cabecera + f'<div class="anexo-cuerpo">{a_html(cuerpo)}</div>')
     galeria = ''.join(
         f'<figure><img src="img/{n}.png" alt="{html.escape(pie)}"><figcaption>{pie}</figcaption></figure>'
         for n, _, pie in GALERIA)

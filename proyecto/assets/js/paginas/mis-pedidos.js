@@ -1,6 +1,6 @@
 // assets/js/paginas/mis-pedidos.js · Controlador del historial de pedidos (B)
 import { obtenerPedidosCliente, ETIQUETAS_ESTADO } from '../datos/pedidos.js';
-import { usuarioActual } from '../sustitutos/sesion.js';
+import { usuarioActual } from '../sesion.js';
 import { formatearPrecio } from '../util/formato.js';
 import '../comun/cabecera.js';
 

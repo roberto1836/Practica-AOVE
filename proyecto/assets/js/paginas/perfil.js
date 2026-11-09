@@ -1,5 +1,5 @@
 // assets/js/paginas/perfil.js · Controlador del perfil de usuario (B)
-import { usuarioActual } from '../sustitutos/sesion.js';
+import { usuarioActual } from '../sesion.js';
 import '../comun/cabecera.js';
 
 const formPerfil = document.getElementById('form-perfil');

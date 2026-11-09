@@ -35,7 +35,7 @@ El trabajo se repartió por **flujos de usuario completos**, de modo que cada in
 | --- | --- | --- | --- |
 | **A** | Noe López García | Inicio, catálogo y ficha de producto | Datos de productos y categorías, formato de precios, ilustraciones, análisis del grupo (inventario y mapa), propuesta de `base.css` |
 | **B** | Roberto Riofrío Ortega | Carrito, confirmación de pedido, perfil, mis pedidos y detalle de pedido | `base.css` definitivo, cabecera y pie, `carrito.js`, datos de pedidos |
-| **C** | <span class="pendiente">Nombre de C</span> | Registro, inicio de sesión y las tres páginas de administración | Validación de formularios, sesión simulada, datos de usuarios |
+| **C** | Carlos Hernán Sánchez | Registro, inicio de sesión y las tres páginas de administración | Validación de formularios, sesión simulada, datos de usuarios |
 
 ## 2.2 Acuerdos comunes
 
@@ -68,7 +68,7 @@ El visitante es un actor propio porque no está identificado: solo accede a lo p
 
 ## 3.2 Historias de usuario
 
-Cada historia sigue el formato «Como [actor], quiero [acción], para [objetivo]». Tiene criterios de aceptación verificables con un sí o un no, y al menos un caso de error por cada camino feliz. Los criterios completos están en los anexos B, C y D, y cada criterio tiene su caso en las matrices de pruebas (anexos E y F).
+Cada historia sigue el formato «Como [actor], quiero [acción], para [objetivo]». Tiene criterios de aceptación verificables con un sí o un no, y al menos un caso de error por cada camino feliz. Los criterios completos están en los anexos B, C y D, y cada criterio tiene su caso en las matrices de pruebas (anexos D, E y F).
 
 **Visitante** (Parte A)
 
@@ -105,9 +105,14 @@ Cada historia sigue el formato «Como [actor], quiero [acción], para [objetivo]
 | CLI-11 | Ver el detalle completo de un pedido anterior | Detalle de pedido |
 | CLI-12 | Editar mi perfil y mis datos predeterminados | Mi perfil |
 
-**Administrador** (Parte C)
+**Registro, sesión y administrador** (Parte C)
 
-<div class="pendiente">Pendiente: historias del administrador (y las del visitante en registro e inicio de sesión) de la Parte C.</div>
+| Id | Historia | Página |
+| --- | --- | --- |
+| HU-C01 | Como visitante, registrarme para obtener una cuenta de cliente | Registro |
+| HU-C02 | Como visitante o usuario registrado, iniciar y cerrar sesión para acceder a las opciones de mi rol | Iniciar sesión y cabecera |
+| HU-C03 | Como administrador, mantener el catálogo: alta, edición, stock y baja lógica | Productos (admin) y alta y edición |
+| HU-C04 | Como administrador, consultar los pedidos y actualizar su estado | Pedidos (admin) |
 
 ## 3.3 Inventario de páginas
 
@@ -118,16 +123,16 @@ El inventario se obtuvo recorriendo las historias una a una y preguntando «¿en
 | Inicio | `index.html` | `GET /` | Público | VIS-01, VIS-13 | A |
 | Catálogo | `productos.html` | `GET /productos` | Público | VIS-02 a VIS-10, VIS-13 | A |
 | Ficha de producto | `producto.html?id=N` | `GET /productos/{id}` (404 si no existe) | Público | VIS-11 a VIS-13, CLI-01 | A |
-| Registro | `registro.html` | `GET/POST /registro` | Público | Requisitos 3.2 · historias de C | C |
-| Iniciar sesión | `login.html?volver=…` | `GET/POST /login` | Público | VIS-12 · historias de C | C |
+| Registro | `registro.html` | `GET/POST /registro` | Público | HU-C01 | C |
+| Iniciar sesión | `login.html?volver=…` | `GET/POST /login` | Público | VIS-12, HU-C02 | C |
 | Carrito | `carrito.html` | `GET /carrito` · `POST /carrito/items/{id}` | Cliente | CLI-01 a CLI-04 | B |
 | Confirmar pedido | `confirmacion.html` | Formulario previo a `POST /pedidos` *(propuesta)* | Cliente | CLI-05 a CLI-09 | B |
 | Detalle de pedido | `pedido.html?id=N` | `GET /mis-pedidos/{id}` *(propuesta)* | Cliente | CLI-11 | B |
 | Mis pedidos | `mis-pedidos.html` | `GET /mis-pedidos` | Cliente | CLI-10 | B |
 | Mi perfil | `perfil.html` | `GET/POST /perfil` *(propuesta)* | Cliente | CLI-12 | B |
-| Productos (admin) | `admin/productos.html` | `GET /admin/productos` | Administrador | Historias de C | C |
-| Alta y edición de producto | `admin/producto-form.html` | `GET/POST /admin/productos/…` | Administrador | Historias de C | C |
-| Pedidos (admin) | `admin/pedidos.html` | `GET /admin/pedidos` · `POST /admin/pedidos/{id}/estado` | Administrador | Historias de C | C |
+| Productos (admin) | `admin/productos.html` | `GET /admin/productos` | Administrador | HU-C03 | C |
+| Alta y edición de producto | `admin/producto-form.html` | `GET/POST /admin/productos/…` | Administrador | HU-C03 | C |
+| Pedidos (admin) | `admin/pedidos.html` | `GET /admin/pedidos` · `POST /admin/pedidos/{id}/estado` | Administrador | HU-C04 | C |
 
 ## 3.4 Mapa de navegación
 
@@ -256,11 +261,27 @@ El recorrido al marcar un filtro es el mismo que hará un Servlet: evento → cr
 
 ## 6.4 Registro, inicio de sesión y administración (Parte C)
 
-<div class="pendiente">Pendiente: decisiones y funcionamiento de la Parte C (validación de formularios, sesión simulada, login con `volver` y páginas de administración).</div>
+- **Sesión simulada** (`sesion.js`). `iniciarSesion(email, password)` comprueba las credenciales contra `datos/usuarios.js` y guarda `{ id, nombre, rol }` en `sessionStorage`. `usuarioActual()` cumple la interfaz acordada, `cerrarSesion()` borra la sesión y `registrarUsuario(...)` da de alta clientes nuevos. Una cuenta con `activo: false` no puede entrar.
+- **Vuelta segura tras el login.** `obtenerRutaVolverSegura()` solo acepta rutas relativas del propio sitio en `?volver=`; una URL externa (`https://…` o `//…`) se descarta y se va a la página por defecto, lo que evita las redirecciones abiertas.
+- **Control de acceso.** Las páginas de administración llaman a `verificarAcceso('admin')`: un visitante o un cliente ve un aviso de acceso restringido y el panel no se muestra. En la Parte 2 lo hará un filtro sobre `/admin/*`.
+- **Validación de formularios** (`validacion.js`). Se valida en el navegador sin borrar lo escrito: el campo erróneo recibe `aria-invalid="true"`, su mensaje se enlaza con `aria-describedby` y el foco va al primer error. Se cubren el correo duplicado, las contraseñas distintas, el precio no positivo y el stock negativo.
+- **Administración.** Tabla de productos con el stock editable en la propia fila y baja lógica (el producto pasa a inactivo sin borrarse), formulario de alta y edición (con «producto no encontrado» si el id no existe) y tabla de pedidos con cambio de estado. Por debajo de 768 px, las tablas se convierten en tarjetas, así que no hay desplazamiento horizontal.
+
+Usuarios de prueba para la demostración:
+
+| Rol | Correo | Contraseña |
+| --- | --- | --- |
+| Cliente | `elena@oleum.es` | `Cliente123!` |
+| Cliente | `javier@oleum.es` | `Cliente123!` |
+| Administrador | `admin@oleum.es` | `Admin123!` |
+| Cliente dado de baja | `inactivo@oleum.es` | `Cliente123!` (no puede entrar) |
 
 ## 6.5 Integración
 
-Cada parte se programó contra las interfaces acordadas (apartado 2.2) usando sustitutos, así que integrar fue cambiar los `import` por los módulos reales. Por ejemplo, `detalle.js` pasó de `sustitutos/carrito.js` al `carrito.js` de B sin tocar nada más, porque los dos devuelven `{ ok, mensaje }`. Tras integrarlo, «Añadir al carrito» redirige a `carrito.html`.
+Cada parte se programó contra las interfaces acordadas (apartado 2.2) usando sustitutos, así que integrar fue cambiar los `import` por los módulos reales, sin tocar nada más:
+
+- `detalle.js` pasó de `sustitutos/carrito.js` al `carrito.js` de B, porque los dos devuelven `{ ok, mensaje }`. Desde entonces, «Añadir al carrito» redirige a `carrito.html`.
+- La ficha, la cabecera y las páginas de compra pasaron de `sustitutos/sesion.js` al `sesion.js` de C, porque los dos ofrecen `usuarioActual()`. Con ello, sin sesión la ficha lleva al login y vuelve después, y el enlace «Administración» solo aparece al administrador.
 
 # 7. Validación y accesibilidad
 
@@ -285,8 +306,8 @@ El objetivo es el nivel AA de WCAG 2.1, organizado según sus cuatro principios.
 | Comprobación | Resultado |
 | --- | --- |
 | Pruebas automáticas (`node --test`) | **40 de 40**: 27 de la lógica del catálogo (A), 8 del carrito y 5 de los pedidos (B) |
-| Criterios de aceptación en el navegador | Parte A: 36 de 36. Parte B: anexo F. Sin errores en la consola |
-| Validador HTML del W3C | Parte A: 0 errores. <span class="pendiente">Parte B: 4 errores por corregir. Cabecera común: 1 aviso por el `aria-label` del contador</span> |
+| Criterios de aceptación en el navegador | Parte A: 36 de 36 (anexo E). Parte B: anexo F. Parte C: 10 de 10 (anexo D) |
+| Validador HTML del W3C | 0 errores en las 13 páginas. Queda un aviso informativo por el `aria-label` del contador del carrito de la cabecera |
 | Validador CSS del W3C | 0 errores; avisos justificados en el anexo E |
 | Lighthouse (Parte A): Accesibilidad, Buenas prácticas y SEO | 100 en las 3 páginas, en móvil y escritorio |
 | Lighthouse (Parte A): Rendimiento | 100, salvo el catálogo en escritorio (98) |
@@ -330,7 +351,7 @@ El despliegue se probó de punta a punta en Tomcat 10.1.61: portada, catálogo c
 - **Páginas:** inicio, catálogo y ficha de producto, con HTML semántico, sus módulos JavaScript (modelo, lógica, vista y controladores) y sus estilos.
 - **Sistema visual:** propuesta de `base.css` con las variables, la cabecera, el pie y los componentes comunes.
 - **Calidad:** pruebas automáticas, matriz de pruebas, validación W3C, auditoría Lighthouse y capturas.
-- **Coordinación e integración:** propuesta de acuerdos del grupo (modelo de datos, URLs, interfaces y Git), revisión de la rama de B, integración del carrito en la ficha, despliegue en Tomcat y montaje de esta memoria.
+- **Coordinación e integración:** propuesta de acuerdos del grupo (modelo de datos, URLs, interfaces y Git), revisión de la rama de B, integración del carrito y de la sesión, despliegue en Tomcat y montaje de esta memoria.
 
 ## 10.2 Parte B · Roberto Riofrío Ortega
 
@@ -340,12 +361,13 @@ El despliegue se probó de punta a punta en Tomcat 10.1.61: portada, catálogo c
 - **Módulos:** `carrito.js` y `datos/pedidos.js`.
 - **Pruebas y documentación:** pruebas automáticas, matriz de pruebas, historias de usuario del cliente y su parte de la memoria.
 
-## 10.3 Parte C · <span class="pendiente">Nombre de C</span>
+## 10.3 Parte C · Carlos Hernán Sánchez
 
-<div class="pendiente">Pendiente: contribución de la Parte C.</div>
+- **Páginas:** registro, inicio de sesión y las tres páginas de administración (productos, alta y edición de producto, y pedidos).
+- **Módulos:** `sesion.js` (sesión simulada, registro, vuelta segura y control de acceso), `validacion.js`, `datos/usuarios.js` y los controladores de administración.
+- **Estilos:** `admin.css`, con las tablas que pasan a tarjetas en el móvil.
+- **Calidad y documentación:** historias de usuario de registro, sesión y administración, matriz de pruebas, README con los usuarios de prueba.
 
 ## 10.4 Uso de inteligencia artificial
 
 Parte A: se ha usado un asistente de IA (Claude) como apoyo en la generación de código y documentación. Todo el contenido ha sido revisado, probado y entendido por el autor.
-
-<div class="pendiente">Pendiente: declaración de uso de IA de las partes B y C.</div>

@@ -112,7 +112,7 @@
               <label class="campo__etiqueta" for="envio-calle">
                 Calle, número, piso y puerta <span class="campo__obligatorio" aria-hidden="true">*</span>
               </label>
-              <input type="text" id="envio-calle" name="calle" required autocomplete="street-address" placeholder="Ej. Calle Mayor 14, 2º B" aria-describedby="error-envio-calle">
+              <input type="text" id="envio-calle" name="calle" required autocomplete="address-line1" placeholder="Ej. Calle Mayor 14, 2º B" aria-describedby="error-envio-calle">
               <span class="campo__error" id="error-envio-calle" role="alert"></span>
             </div>
 
@@ -221,26 +221,26 @@
             <div class="opciones-pago">
               <label class="opcion-pago">
                 <input type="radio" name="metodo_pago" value="Tarjeta bancaria (simulada)" checked>
-                <div class="opcion-pago__contenido">
+                <span class="opcion-pago__contenido">
                   <span class="opcion-pago__titulo">Tarjeta de débito / crédito ficticia</span>
                   <span class="opcion-pago__descripcion">Tarjeta de prueba prepagada (4242 •••• •••• 4242). Confirmación instantánea.</span>
-                </div>
+                </span>
               </label>
 
               <label class="opcion-pago">
                 <input type="radio" name="metodo_pago" value="Bizum (simulado)">
-                <div class="opcion-pago__contenido">
+                <span class="opcion-pago__contenido">
                   <span class="opcion-pago__titulo">Bizum simulado</span>
                   <span class="opcion-pago__descripcion">Confirmación inmediata vinculada al teléfono de envío.</span>
-                </div>
+                </span>
               </label>
 
               <label class="opcion-pago">
                 <input type="radio" name="metodo_pago" value="Transferencia bancaria (simulada)">
-                <div class="opcion-pago__contenido">
+                <span class="opcion-pago__contenido">
                   <span class="opcion-pago__titulo">Transferencia bancaria simulada</span>
                   <span class="opcion-pago__descripcion">El pedido quedará registrado en estado "recibido".</span>
-                </div>
+                </span>
               </label>
             </div>
           </fieldset>

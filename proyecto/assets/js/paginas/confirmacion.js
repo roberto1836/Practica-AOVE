@@ -1,7 +1,7 @@
 // assets/js/paginas/confirmacion.js · Controlador de Checkout multi-paso (B)
 import { obtenerLineas, calcularTotales, vaciar, contarUnidades } from '../carrito.js';
 import { crearPedido } from '../datos/pedidos.js';
-import { usuarioActual } from '../sustitutos/sesion.js';
+import { usuarioActual } from '../sesion.js';
 import { formatearPrecio, formatearVolumen } from '../util/formato.js';
 import '../comun/cabecera.js';
 

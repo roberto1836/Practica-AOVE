@@ -2,7 +2,7 @@
 // Actualiza el contador del carrito y comprueba el rol del usuario para mostrar el enlace de Administración.
 
 import { contarUnidades } from '../carrito.js';
-import { usuarioActual } from '../sustitutos/sesion.js';
+import { usuarioActual } from '../sesion.js';
 
 export function actualizarContadorCarrito() {
   const contador = document.getElementById('contador-carrito');
