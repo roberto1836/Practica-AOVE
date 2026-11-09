@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="es">
+<!-- Catálogo de Oleum (A): búsqueda, filtros, orden, resultados y paginación.
+     El formulario funciona con GET (mismos parámetros que GET /productos en la Parte 2);
+     assets/js/paginas/catalogo.js pinta las opciones y los resultados con las plantillas de esta página. -->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Catálogo · Oleum</title>
+  <meta name="description" content="Catálogo de aceites de oliva virgen extra de Oleum: busca y filtra por categoría, variedad y precio.">
+  <!-- Sistema visual común del grupo (ACUERDOS.md, sección 9) y, después, la hoja propia de la página. -->
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/catalogo.css">
+  <!-- Sin JavaScript, el botón «Filtros» no haría nada: esta hoja lo oculta y deja los filtros siempre a la vista. -->
+  <noscript><link rel="stylesheet" href="assets/css/sin-js.css"></noscript>
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <script type="module" src="assets/js/paginas/catalogo.js"></script>
+  <script type="module" src="assets/js/comun/cabecera.js"></script>
+</head>
+<body>
+  <!-- cabecera-comun: inicio (B) -->
+  <a class="saltar-al-contenido" href="#contenido">Saltar al contenido</a>
+  <header class="cabecera">
+    <a class="cabecera__logo" href="index.html">Oleum</a>
+    <nav class="cabecera__navegacion" aria-label="Principal">
+      <ul class="menu" id="menu-navegacion">
+        <li class="menu__elemento"><a class="menu__enlace" href="index.html">Inicio</a></li>
+        <li class="menu__elemento"><a class="menu__enlace" href="productos.html" aria-current="page">Catálogo</a></li>
+        <li class="menu__elemento">
+          <a class="menu__enlace" href="carrito.html">
+            <span>Carrito</span>
+            <span class="cabecera__contador" id="contador-carrito" aria-label="0 artículos en el carrito" data-unidades="0">0</span>
+          </a>
+        </li>
+        <li class="menu__elemento"><a class="menu__enlace" href="perfil.html">Mi cuenta</a></li>
+        <li class="menu__elemento" id="menu-admin-item" hidden>
+          <a class="menu__enlace" href="admin/productos.html">Administración</a>
+        </li>
+      </ul>
+    </nav>
+  </header>
+  <!-- cabecera-comun: fin -->
+
+  <main id="contenido" class="pagina-catalogo">
+    <h1>Catálogo</h1>
+
+    <noscript>
+      <p class="aviso">El catálogo necesita JavaScript para mostrar los aceites. Actívalo en tu navegador para verlos.</p>
+    </noscript>
+
+    <!-- En móvil, los filtros empiezan plegados tras este botón (catalogo.js lo hace funcionar).
+         Ya vienen plegados en el HTML, no los pliega JS al cargar: así la página no salta (Lighthouse, CLS). -->
+    <button class="filtros-alternar boton boton--secundario" id="alternar-filtros" type="button" aria-expanded="false" aria-controls="formulario-filtros">Filtros</button>
+
+    <form class="filtros" id="formulario-filtros" method="get" action="productos.html" aria-label="Filtrar el catálogo">
+      <div class="filtros__grupo">
+        <label class="filtros__etiqueta" for="filtro-busqueda">Buscar por nombre, productor, origen o variedad</label>
+        <input class="filtros__campo" type="search" id="filtro-busqueda" name="q">
+      </div>
+
+      <fieldset class="filtros__grupo">
+        <legend class="filtros__leyenda">Categoría</legend>
+        <!-- Las casillas salen de los datos (VIS-04: aparecen todas las categorías). -->
+        <div class="filtros__opciones" id="opciones-categoria"></div>
+      </fieldset>
+
+      <fieldset class="filtros__grupo">
+        <legend class="filtros__leyenda">Variedad</legend>
+        <!-- Solo las variedades presentes en el catálogo (VIS-05). -->
+        <div class="filtros__opciones" id="opciones-variedad"></div>
+      </fieldset>
+
+      <fieldset class="filtros__grupo">
+        <legend class="filtros__leyenda">Precio</legend>
+        <div class="filtros__rango">
+          <label class="filtros__etiqueta" for="filtro-precio-min">Desde (€)</label>
+          <input class="filtros__campo" type="number" id="filtro-precio-min" name="min" min="0" step="0.01" inputmode="decimal" aria-describedby="error-precio">
+        </div>
+        <div class="filtros__rango">
+          <label class="filtros__etiqueta" for="filtro-precio-max">Hasta (€)</label>
+          <input class="filtros__campo" type="number" id="filtro-precio-max" name="max" min="0" step="0.01" inputmode="decimal" aria-describedby="error-precio">
+        </div>
+        <!-- Error de mínimo mayor que máximo (VIS-06): va junto a los campos y no borra lo escrito. -->
+        <p class="filtros__error" id="error-precio" aria-live="polite"></p>
+      </fieldset>
+
+      <div class="filtros__grupo">
+        <label class="filtros__etiqueta" for="filtro-orden">Ordenar por</label>
+        <select class="filtros__campo" id="filtro-orden" name="orden">
+          <option value="relevancia" selected>Relevancia</option>
+          <option value="precio-asc">Precio: de menor a mayor</option>
+          <option value="precio-desc">Precio: de mayor a menor</option>
+          <option value="nombre">Nombre (A-Z)</option>
+        </select>
+      </div>
+
+      <div class="filtros__acciones">
+        <button class="filtros__aplicar boton boton--secundario" type="submit">Aplicar filtros</button>
+        <a class="filtros__limpiar" href="productos.html">Limpiar filtros</a>
+      </div>
+    </form>
+
+    <section class="resultados" aria-labelledby="titulo-resultados">
+      <h2 class="visualmente-oculto" id="titulo-resultados">Resultados</h2>
+      <!-- role="status" + aria-live: el lector de pantalla anuncia el nuevo número sin mover el foco (VIS-07). -->
+      <p class="resultados__contador" id="contador-resultados" role="status" aria-live="polite"></p>
+      <ul class="filtros-aplicados" id="filtros-aplicados" aria-label="Filtros aplicados"></ul>
+      <ul class="rejilla-productos" id="lista-productos"></ul>
+      <p class="resultados__vacio" id="mensaje-sin-resultados" hidden>No hay aceites que cumplan estos filtros. Prueba a quitar alguno o <a href="productos.html">limpia todos los filtros</a>.</p>
+      <nav class="paginacion" aria-label="Paginación">
+        <ul class="paginacion__lista" id="lista-paginacion"></ul>
+      </nav>
+    </section>
+
+    <!-- Plantillas: catalogo.js las clona y rellena con textContent (nunca innerHTML con datos). -->
+    <!-- La casilla va dentro de su label: así queda asociada sin necesitar ids únicos en cada clon. -->
+    <template id="plantilla-opcion-categoria">
+      <div class="filtros__opcion">
+        <label class="filtros__etiqueta-opcion"><input type="checkbox" name="categoria" value=""> <span class="filtros__texto-opcion">Categoría</span></label>
+      </div>
+    </template>
+
+    <template id="plantilla-opcion-variedad">
+      <div class="filtros__opcion">
+        <label class="filtros__etiqueta-opcion"><input type="checkbox" name="variedad" value=""> <span class="filtros__texto-opcion">Variedad</span></label>
+      </div>
+    </template>
+
+    <template id="plantilla-filtro-aplicado">
+      <li class="filtros-aplicados__elemento">
+        <span class="filtros-aplicados__texto">Filtro</span>
+        <!-- catalogo.js completa el aria-label con el filtro concreto, por ejemplo «Quitar filtro: Picual». -->
+        <button class="filtros-aplicados__quitar" type="button" aria-label="Quitar filtro">×</button>
+      </li>
+    </template>
+
+    <template id="plantilla-enlace-pagina">
+      <li class="paginacion__elemento"><a class="paginacion__enlace" href="productos.html">1</a></li>
+    </template>
+
+    <template id="plantilla-tarjeta-producto">
+      <li class="rejilla-productos__elemento">
+        <article class="tarjeta-producto">
+          <!-- alt vacío: el nombre del producto va justo al lado, en el h3, y repetirlo sería ruido para el lector de pantalla. -->
+          <img class="tarjeta-producto__imagen" src="assets/img/producto-sin-imagen.svg" alt="" width="400" height="400" loading="lazy">
+          <h3 class="tarjeta-producto__nombre"><a class="tarjeta-producto__enlace" href="producto.html">Nombre del producto</a></h3>
+          <p class="tarjeta-producto__detalle"><span class="tarjeta-producto__variedad">Variedad</span> · <span class="tarjeta-producto__formato">Formato</span></p>
+          <p class="tarjeta-producto__precio">Precio</p>
+          <p class="tarjeta-producto__disponibilidad">Disponibilidad</p>
+        </article>
+      </li>
+    </template>
+  </main>
+
+  <!-- pie-comun: inicio (B) -->
+  <!-- Versión provisional de A hasta que B entregue la definitiva. -->
+  <footer class="pie">
+    <p class="pie__marca">Oleum · Aceite de oliva virgen extra</p>
+    <p class="pie__aviso">Tienda de prácticas: el pago es simulado y no se realiza ningún cobro.</p>
+    <p class="pie__aviso">Práctica de Arquitectura y Diseño de Sistemas Web y C/S · Universidad de Alcalá (UAH), curso 2026-27.</p>
+  </footer>
+  <!-- pie-comun: fin -->
+</body>
+</html>

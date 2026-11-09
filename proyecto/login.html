@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Iniciar sesión · Oleum</title>
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/admin.css">
+  <script type="module" src="assets/js/admin/cabecera-sesion.js"></script>
+  <script type="module" src="assets/js/admin/autenticacion.js"></script>
+</head>
+<body>
+  <a class="saltar-al-contenido" href="#contenido-principal">Saltar al contenido</a>
+
+  <!-- cabecera-comun: inicio (B) -->
+  <header class="cabecera">
+    <a class="cabecera__logo" href="index.html">Oleum</a>
+    <nav class="cabecera__navegacion" aria-label="Principal">
+      <ul class="menu" id="menu-principal">
+        <li><a class="menu__enlace" href="index.html">Inicio</a></li>
+        <li><a class="menu__enlace" href="productos.html">Catálogo</a></li>
+        <li><a class="menu__enlace" href="carrito.html">Carrito</a></li>
+        <li id="item-nav-admin" hidden><a class="menu__enlace" href="admin/productos.html">Administración</a></li>
+        <li id="item-nav-pedidos" hidden><a class="menu__enlace" href="mis-pedidos.html">Mis pedidos</a></li>
+        <li id="item-nav-perfil" hidden><a class="menu__enlace" href="perfil.html">Mi perfil</a></li>
+        <li id="item-nav-login"><a class="menu__enlace" href="login.html" aria-current="page">Iniciar sesión</a></li>
+        <li id="item-nav-registro"><a class="menu__enlace" href="registro.html">Crear cuenta</a></li>
+        <li id="item-nav-logout" hidden>
+          <span id="nombre-usuario-sesion" class="cabecera__usuario" hidden></span>
+          <button type="button" class="boton boton--secundario" id="boton-cerrar-sesion">Cerrar sesión</button>
+        </li>
+      </ul>
+    </nav>
+  </header>
+  <!-- cabecera-comun: fin -->
+
+  <main id="contenido-principal">
+    <noscript>
+      <p class="aviso">Esta aplicación necesita JavaScript para validar formularios y gestionar la sesión.</p>
+    </noscript>
+
+    <section class="contenedor-auth" aria-labelledby="titulo-login">
+      <h1 id="titulo-login">Iniciar sesión</h1>
+      <p>Accede con tu cuenta de cliente o de administración.</p>
+
+      <div id="mensaje-global-login" class="alerta" role="status" hidden></div>
+
+      <form id="formulario-login" action="index.html" method="post" novalidate>
+        <div class="formulario-grupo">
+          <label class="formulario-etiqueta" for="login-email">Correo electrónico</label>
+          <input type="email" id="login-email" name="email" autocomplete="email" required>
+        </div>
+
+        <div class="formulario-grupo">
+          <label class="formulario-etiqueta" for="login-password">Contraseña</label>
+          <input type="password" id="login-password" name="password" autocomplete="current-password" required minlength="6">
+        </div>
+
+        <div class="formulario-acciones">
+          <button type="submit" class="boton">Entrar</button>
+          <a class="boton boton--secundario" href="registro.html">Crear una cuenta</a>
+        </div>
+      </form>
+
+      <aside class="caja-demo" aria-label="Credenciales de prueba para la defensa">
+        <p class="caja-demo__titulo">Acceso rápido de demostración (Parte 1):</p>
+        <div class="caja-demo__botones">
+          <button type="button" class="boton boton--secundario" data-demo-email="elena@oleum.es" data-demo-pass="Cliente123!">Cliente (Elena)</button>
+          <button type="button" class="boton boton--secundario" data-demo-email="admin@oleum.es" data-demo-pass="Admin123!">Administrador</button>
+          <button type="button" class="boton boton--secundario" data-demo-email="inactivo@oleum.es" data-demo-pass="Cliente123!">Cuenta inactiva</button>
+        </div>
+      </aside>
+    </section>
+  </main>
+
+  <!-- pie-comun: inicio (B) -->
+  <footer class="pie">
+    <p class="pie__marca">Oleum · Aceite de Oliva Virgen Extra</p>
+    <p class="pie__aviso">Práctica de Arquitectura y Diseño de Sistemas Web y C/S · Curso 2026/2027</p>
+  </footer>
+  <!-- pie-comun: fin -->
+</body>
+</html>

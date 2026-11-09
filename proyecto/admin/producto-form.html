@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Formulario de producto · Oleum</title>
+  <link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../assets/css/base.css">
+  <link rel="stylesheet" href="../assets/css/admin.css">
+  <script type="module" src="../assets/js/admin/cabecera-sesion.js"></script>
+  <script type="module" src="../assets/js/admin/productos-admin.js"></script>
+</head>
+<body>
+  <a class="saltar-al-contenido" href="#contenido-principal">Saltar al contenido</a>
+
+  <!-- cabecera-comun: inicio (B) -->
+  <header class="cabecera">
+    <a class="cabecera__logo" href="../index.html">Oleum</a>
+    <nav class="cabecera__navegacion" aria-label="Principal">
+      <ul class="menu" id="menu-principal">
+        <li><a class="menu__enlace" href="../index.html">Inicio</a></li>
+        <li><a class="menu__enlace" href="../productos.html">Catálogo</a></li>
+        <li><a class="menu__enlace" href="../carrito.html">Carrito</a></li>
+        <li id="item-nav-admin"><a class="menu__enlace" href="productos.html" aria-current="page">Administración</a></li>
+        <li id="item-nav-pedidos" hidden><a class="menu__enlace" href="../mis-pedidos.html">Mis pedidos</a></li>
+        <li id="item-nav-perfil" hidden><a class="menu__enlace" href="../perfil.html">Mi perfil</a></li>
+        <li id="item-nav-login"><a class="menu__enlace" href="../login.html">Iniciar sesión</a></li>
+        <li id="item-nav-registro"><a class="menu__enlace" href="../registro.html">Crear cuenta</a></li>
+        <li id="item-nav-logout" hidden>
+          <span id="nombre-usuario-sesion" class="cabecera__usuario" hidden></span>
+          <button type="button" class="boton boton--secundario" id="boton-cerrar-sesion">Cerrar sesión</button>
+        </li>
+      </ul>
+    </nav>
+  </header>
+  <!-- cabecera-comun: fin -->
+
+  <main id="contenido-principal">
+    <noscript>
+      <p class="aviso">Esta aplicación necesita JavaScript para guardar productos.</p>
+    </noscript>
+
+    <section id="bloqueo-acceso" class="alerta alerta--error" hidden aria-labelledby="titulo-denegado-form">
+      <h1 id="titulo-denegado-form">Acceso restringido</h1>
+      <p id="texto-denegado">Solo los usuarios con rol de administrador pueden crear o editar productos.</p>
+      <p><a class="boton" href="../login.html?volver=admin/producto-form.html">Iniciar sesión como administrador</a></p>
+    </section>
+
+    <section id="panel-form-producto" hidden aria-labelledby="titulo-form-producto">
+      <div class="admin-cabecera">
+        <h1 id="titulo-form-producto">Alta de producto</h1>
+        <a class="boton boton--secundario" href="productos.html">Volver al listado</a>
+      </div>
+
+      <div id="mensaje-error-form" class="alerta alerta--error" role="alert" hidden></div>
+
+      <form id="formulario-producto" class="formulario-admin" action="productos.html" method="post" novalidate>
+        <input type="hidden" id="prod-id" name="id">
+
+        <div class="rejilla-formulario">
+          <div class="formulario-grupo">
+            <label class="formulario-etiqueta" for="prod-nombre">Nombre comercial</label>
+            <input type="text" id="prod-nombre" name="nombre" required minlength="3" maxlength="100">
+          </div>
+
+          <div class="formulario-grupo">
+            <label class="formulario-etiqueta" for="prod-categoria">Categoría</label>
+            <select id="prod-categoria" name="categoria_id" required>
+              <option value="">Selecciona una categoría...</option>
+            </select>
+          </div>
+
+          <div class="formulario-grupo">
+            <label class="formulario-etiqueta" for="prod-productor">Productor / Almazara</label>
+            <input type="text" id="prod-productor" name="productor" required minlength="2" maxlength="80">
+          </div>
+
+          <div class="formulario-grupo">
+            <label class="formulario-etiqueta" for="prod-origen">Origen / D.O.P.</label>
+            <input type="text" id="prod-origen" name="origen" required minlength="2" maxlength="80">
+          </div>
+
+          <div class="formulario-grupo">
+            <label class="formulario-etiqueta" for="prod-variedad">Variedad de aceituna</label>
+            <input type="text" id="prod-variedad" name="variedad" required minlength="3" maxlength="50">
+          </div>
+
+          <div class="formulario-grupo">
+            <label class="formulario-etiqueta" for="prod-formato">Formato (en ml)</label>
+            <input type="number" id="prod-formato" name="formato_ml" required min="100" max="10000" step="50" aria-describedby="ayuda-formato">
+            <p class="formulario-ayuda" id="ayuda-formato">Ejemplo: 500 para botella de 500 ml, 5000 para garrafa de 5 L.</p>
+          </div>
+
+          <div class="formulario-grupo">
+            <label class="formulario-etiqueta" for="prod-precio">Precio unitario (€)</label>
+            <input type="number" id="prod-precio" name="precio" required min="0.50" max="500" step="0.01">
+          </div>
+
+          <div class="formulario-grupo">
+            <label class="formulario-etiqueta" for="prod-stock">Stock disponible (unidades)</label>
+            <input type="number" id="prod-stock" name="stock" required min="0" max="9999" step="1">
+          </div>
+
+          <div class="formulario-grupo rejilla-formulario__completo">
+            <label class="formulario-etiqueta" for="prod-imagen">Ruta de la imagen</label>
+            <input type="text" id="prod-imagen" name="imagen" required value="assets/img/favicon.svg">
+          </div>
+
+          <div class="formulario-grupo rejilla-formulario__completo">
+            <label class="formulario-etiqueta" for="prod-descripcion">Descripción y nota de cata</label>
+            <textarea id="prod-descripcion" name="descripcion" rows="4" required minlength="15" maxlength="600"></textarea>
+          </div>
+
+          <div class="formulario-grupo rejilla-formulario__completo">
+            <div class="fila-checkbox">
+              <input type="checkbox" id="prod-activo" name="activo" checked>
+              <label class="formulario-etiqueta" for="prod-activo">Producto activo (visible en el catálogo público)</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="formulario-acciones">
+          <button type="submit" class="boton">Guardar producto</button>
+          <a class="boton boton--secundario" href="productos.html">Cancelar</a>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <!-- pie-comun: inicio (B) -->
+  <footer class="pie">
+    <p class="pie__marca">Oleum · Aceite de Oliva Virgen Extra</p>
+    <p class="pie__aviso">Práctica de Arquitectura y Diseño de Sistemas Web y C/S · Curso 2026/2027</p>
+  </footer>
+  <!-- pie-comun: fin -->
+</body>
+</html>
