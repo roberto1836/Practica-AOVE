@@ -319,3 +319,24 @@ export const productos = [
     descripcion: 'Botellín de 100 ml de Cornicabra de los Montes de Toledo. Aroma a almendra verde y un final picante. Pensado para catas y para regalar.'
   }
 ];
+
+// Sincronización en tiempo de ejecución con las modificaciones del panel de administración
+if (typeof sessionStorage !== 'undefined') {
+  try {
+    const modificado = sessionStorage.getItem('oleum_productos_admin');
+    if (modificado) {
+      const listaAdmin = JSON.parse(modificado);
+      if (Array.isArray(listaAdmin) && listaAdmin.length > 0) {
+        productos.length = 0;
+        productos.push(...listaAdmin);
+      }
+    }
+  } catch {
+    // Si falla el acceso a sessionStorage se mantiene la semilla original
+  }
+}
+
+export function obtenerTodosLosProductos() {
+  return productos;
+}
+

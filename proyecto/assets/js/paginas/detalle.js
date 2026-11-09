@@ -6,9 +6,9 @@ import { productos } from '../datos/productos.js';
 import { buscarProducto, validarCantidad } from '../catalogo/filtros.js';
 import { clonarPlantilla, ponerImagen } from '../catalogo/vista.js';
 import { formatearPrecio, formatearPrecioPorLitro, formatearVolumen } from '../util/formato.js';
-// Integración con carrito.js definitivo (B) y sustituto de sesión (C).
+// Integración con carrito.js definitivo (B) y sesión real (C).
 import { anadir } from '../carrito.js';
-import { usuarioActual } from '../sustitutos/sesion.js';
+import { usuarioActual } from '../sesion.js';
 
 const AVISO_ADMINISTRADOR = 'Has iniciado sesión como administrador: la compra está desactivada.';
 

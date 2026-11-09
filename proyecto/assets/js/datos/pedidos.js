@@ -262,6 +262,27 @@ export function crearPedido({ usuarioId, direccionEnvio, metodoPago, lineas, gas
   return { ok: true, pedido: nuevoPedido };
 }
 
+// Exportación de compatibilidad
+export const pedidos = PEDIDOS_SEMILLA;
+
+// Recupera todos los pedidos existentes (para el panel de administración de C)
+export function obtenerTodosLosPedidos() {
+  return cargarTodosLosPedidos();
+}
+
+// Actualiza el estado de un pedido y persiste el cambio
+export function actualizarEstadoPedido(pedidoId, nuevoEstado) {
+  const idNumerico = Number(pedidoId);
+  const todos = cargarTodosLosPedidos();
+  const pedido = todos.find((p) => p.id === idNumerico);
+  if (!pedido) {
+    return { ok: false, mensaje: `Pedido #${pedidoId} no encontrado.` };
+  }
+  pedido.estado = nuevoEstado;
+  guardarTodosLosPedidos(todos);
+  return { ok: true, pedido };
+}
+
 // Utilidad para limpiar en tests automáticos
 export function _resetearPedidosParaPruebas() {
   memoriaPedidos = null;

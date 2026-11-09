@@ -103,14 +103,27 @@ function iniciarListadoProductos() {
       inputStock.value = String(prod.stock);
       labelStock.setAttribute("for", idInputStock);
 
+      const validadorStock = (val) => {
+        const n = Number(val);
+        if (!Number.isInteger(n) || n < 0) return "El stock debe ser un entero mayor o igual a 0.";
+        return null;
+      };
+
+      inputStock.addEventListener("input", () => {
+        if (inputStock.getAttribute("aria-invalid") === "true") {
+          validarCampo(inputStock, validadorStock);
+        }
+      });
+
+      const botonGuardarStock = clon.querySelector(".form-stock button[type='submit']");
+      if (botonGuardarStock) {
+        botonGuardarStock.setAttribute("aria-label", `Guardar existencias de ${prod.nombre}`);
+      }
+
       const formStock = clon.querySelector(".form-stock");
       formStock.addEventListener("submit", (e) => {
         e.preventDefault();
-        if (!validarCampo(inputStock, (val) => {
-          const n = Number(val);
-          if (!Number.isInteger(n) || n < 0) return "El stock debe ser un entero mayor o igual a 0.";
-          return null;
-        })) {
+        if (!validarCampo(inputStock, validadorStock)) {
           return;
         }
         prod.stock = Number.parseInt(inputStock.value, 10);
@@ -130,9 +143,11 @@ function iniciarListadoProductos() {
 
       const enlaceEditar = clon.querySelector(".enlace-editar");
       enlaceEditar.href = `producto-form.html?id=${prod.id}`;
+      enlaceEditar.setAttribute("aria-label", `Editar producto ${prod.nombre}`);
 
       const botonBaja = clon.querySelector(".boton-baja-logica");
       botonBaja.textContent = prod.activo ? "Desactivar" : "Reactivar";
+      botonBaja.setAttribute("aria-label", `${prod.activo ? "Desactivar" : "Reactivar"} producto ${prod.nombre}`);
       botonBaja.addEventListener("click", () => {
         prod.activo = !prod.activo;
         guardarProductosCatalogo(lista);
@@ -232,7 +247,7 @@ function iniciarFormularioProducto() {
     if (!validarFormulario(formulario, validadoresProducto)) return;
 
     const datosProducto = {
-      id: idEditar || lista.reduce((max, p) => Math.max(max, p.id), 0) + 1,
+      id: idEditar !== null ? idEditar : lista.reduce((max, p) => Math.max(max, p.id), 0) + 1,
       categoria_id: Number.parseInt(document.getElementById("prod-categoria").value, 10),
       nombre: document.getElementById("prod-nombre").value.trim(),
       productor: document.getElementById("prod-productor").value.trim(),

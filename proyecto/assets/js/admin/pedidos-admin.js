@@ -2,33 +2,13 @@
 // admin/pedidos-admin.js · Gestión de estados de pedidos en administración (C)
 // =============================================================================
 
-import { pedidos as pedidosBase } from "../datos/pedidos.js";
+import {
+  obtenerTodosLosPedidos,
+  actualizarEstadoPedido,
+  ETIQUETAS_ESTADO
+} from "../datos/pedidos.js";
 import { formatearPrecio } from "../util/formato.js";
 import { verificarAcceso, obtenerTodosLosUsuarios } from "../sesion.js";
-
-const CLAVE_PEDIDOS_ADMIN = "oleum_pedidos_admin";
-
-const NOMBRES_ESTADO = {
-  recibido: "Recibido",
-  en_preparacion: "En preparación",
-  enviado: "Enviado",
-  entregado: "Entregado",
-  cancelado: "Cancelado"
-};
-
-function obtenerPedidos() {
-  try {
-    const guardado = sessionStorage.getItem(CLAVE_PEDIDOS_ADMIN);
-    if (guardado) return JSON.parse(guardado);
-  } catch {
-    // Si falla, usar datos iniciales
-  }
-  return structuredClone(pedidosBase);
-}
-
-function guardarPedidos(lista) {
-  sessionStorage.setItem(CLAVE_PEDIDOS_ADMIN, JSON.stringify(lista));
-}
 
 function iniciarAdminPedidos() {
   const panel = document.getElementById("panel-admin-pedidos");
@@ -52,7 +32,7 @@ function iniciarAdminPedidos() {
   panel.hidden = false;
   const mensaje = document.getElementById("mensaje-admin-pedidos");
   const usuarios = obtenerTodosLosUsuarios();
-  const listaPedidos = obtenerPedidos();
+  const listaPedidos = obtenerTodosLosPedidos();
 
   cuerpo.replaceChildren();
 
@@ -64,11 +44,45 @@ function iniciarAdminPedidos() {
       : 0;
 
     clon.querySelector(".celda-id").textContent = `#${pedido.id}`;
-    clon.querySelector(".celda-cliente").textContent = cliente
-      ? `${cliente.nombre} (${cliente.email})`
-      : `Usuario #${pedido.usuario_id}`;
-    clon.querySelector(".celda-fecha").textContent = pedido.fecha;
-    clon.querySelector(".celda-direccion").textContent = pedido.direccion_envio;
+
+    // Identificación legible del cliente
+    let clienteTexto = "";
+    if (cliente) {
+      clienteTexto = `${cliente.nombre} (${cliente.email})`;
+    } else if (pedido.direccion_envio && pedido.direccion_envio.nombre_completo) {
+      clienteTexto = `${pedido.direccion_envio.nombre_completo} (Cliente #${pedido.usuario_id})`;
+    } else {
+      clienteTexto = `Cliente #${pedido.usuario_id}`;
+    }
+    clon.querySelector(".celda-cliente").textContent = clienteTexto;
+
+    // Fecha en formato local en español
+    let fechaTexto = pedido.fecha;
+    try {
+      const f = new Date(pedido.fecha);
+      if (!Number.isNaN(f.getTime())) {
+        fechaTexto = f.toLocaleDateString("es-ES", {
+          day: "2-digit",
+          month: "2-digit",
+          year: "numeric"
+        });
+      }
+    } catch {
+      // conservar fecha original
+    }
+    clon.querySelector(".celda-fecha").textContent = fechaTexto;
+
+    // Dirección de envío formateada (evita [object Object])
+    let direccionTexto = "";
+    if (typeof pedido.direccion_envio === "object" && pedido.direccion_envio !== null) {
+      const d = pedido.direccion_envio;
+      const partes = [d.calle, `${d.codigo_postal || ""} ${d.ciudad || ""}`.trim(), d.provincia ? `(${d.provincia})` : ""].filter(Boolean);
+      direccionTexto = partes.join(", ");
+    } else {
+      direccionTexto = String(pedido.direccion_envio || "");
+    }
+    clon.querySelector(".celda-direccion").textContent = direccionTexto;
+
     clon.querySelector(".celda-unidades").textContent = `${numUnidades} uds.`;
     clon.querySelector(".celda-total").textContent = formatearPrecio(pedido.total);
 
@@ -79,15 +93,23 @@ function iniciarAdminPedidos() {
     selectEstado.value = pedido.estado;
     labelEstado.setAttribute("for", idSelect);
 
+    const botonActualizar = clon.querySelector("button[type='submit']");
+    if (botonActualizar) {
+      botonActualizar.setAttribute("aria-label", `Actualizar estado del pedido #${pedido.id}`);
+    }
+
     const formEstado = clon.querySelector(".form-estado-pedido");
     formEstado.addEventListener("submit", (e) => {
       e.preventDefault();
-      pedido.estado = selectEstado.value;
-      guardarPedidos(listaPedidos);
-      if (mensaje) {
-        const nombreLegible = NOMBRES_ESTADO[pedido.estado] || pedido.estado;
-        mensaje.textContent = `El estado del pedido #${pedido.id} se ha actualizado a «${nombreLegible}».`;
-        mensaje.hidden = false;
+      const nuevoEstado = selectEstado.value;
+      const res = actualizarEstadoPedido(pedido.id, nuevoEstado);
+      if (res.ok) {
+        pedido.estado = nuevoEstado;
+        if (mensaje) {
+          const nombreLegible = ETIQUETAS_ESTADO[nuevoEstado] || nuevoEstado;
+          mensaje.textContent = `El estado del pedido #${pedido.id} se ha actualizado a «${nombreLegible}».`;
+          mensaje.hidden = false;
+        }
       }
     });
 

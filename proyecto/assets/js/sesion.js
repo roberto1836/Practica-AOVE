@@ -83,6 +83,9 @@ export function iniciarSesion(email, password) {
   };
 
   sessionStorage.setItem(CLAVE_SESION, JSON.stringify(datosSesion));
+  if (typeof window !== "undefined") {
+    window.dispatchEvent(new CustomEvent("sesion:cambio", { detail: datosSesion }));
+  }
   return { ok: true, usuario: datosSesion };
 }
 
@@ -91,6 +94,9 @@ export function iniciarSesion(email, password) {
  */
 export function cerrarSesion() {
   sessionStorage.removeItem(CLAVE_SESION);
+  if (typeof window !== "undefined") {
+    window.dispatchEvent(new CustomEvent("sesion:cambio", { detail: null }));
+  }
 }
 
 /**

@@ -429,6 +429,15 @@ input[type="checkbox"] {
   display: none;
 }
 
+.cabecera__usuario {
+  display: inline-flex;
+  align-items: center;
+  font-size: var(--texto-sm);
+  color: var(--color-primario-oscuro);
+  font-weight: 600;
+  padding: 0 var(--espacio-2);
+}
+
 /* ---------- Tablas de datos accesibles ---------- */
 
 .tabla-contenedor {

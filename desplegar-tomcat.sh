@@ -12,7 +12,11 @@ fi
 
 echo "Sincronizando archivos del prototipo con $DESTINO..."
 mkdir -p "$DESTINO"
-cp -r proyecto/* "$DESTINO/"
+if command -v rsync >/dev/null 2>&1; then
+  rsync -a --delete proyecto/ "$DESTINO/"
+else
+  cp -r proyecto/* "$DESTINO/"
+fi
 
 echo "Despliegue actualizado correctamente en Tomcat."
 echo "Accede en: http://localhost:8080/oleum/index.html"

@@ -1,7 +1,7 @@
 // assets/js/paginas/pedido.js · Controlador del detalle de pedido (B)
 import { obtenerPedidoPorId, ETIQUETAS_ESTADO } from '../datos/pedidos.js';
 import { productos } from '../datos/productos.js';
-import { usuarioActual } from '../sustitutos/sesion.js';
+import { usuarioActual } from '../sesion.js';
 import { formatearPrecio, formatearVolumen } from '../util/formato.js';
 import '../comun/cabecera.js';
 
