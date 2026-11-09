@@ -1,0 +1,178 @@
+/* Estilos de impresión de la memoria: la misma identidad que la web (base.css). */
+:root {
+  --primario: #3b4a2c;
+  --primario-oscuro: #263019;
+  --primario-suave: #eef0e2;
+  --acento: #8c6a1f;
+  --fondo: #faf7ef;
+  --borde: #e3dfcf;
+  --texto: #1f2419;
+  --texto-suave: #5a604f;
+  --titulos: "TeX Gyre Pagella", "Palatino Linotype", Palatino, serif;
+  --letra: Inter, "Segoe UI", system-ui, sans-serif;
+}
+
+@page { size: A4; }
+
+* { box-sizing: border-box; }
+
+html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+body {
+  margin: 0;
+  font-family: var(--letra);
+  font-size: 9.4pt;
+  line-height: 1.55;
+  color: var(--texto);
+  font-variant-ligatures: none;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--titulos);
+  color: var(--primario-oscuro);
+  line-height: 1.2;
+  break-after: avoid;
+  font-variant-ligatures: none;
+}
+
+h1 {
+  break-before: page;
+  font-size: 22pt;
+  margin: 0 0 6mm;
+  padding-bottom: 3mm;
+  border-bottom: 1.5pt solid var(--primario);
+}
+body > h1:first-child { break-before: auto; }
+
+h2 { font-size: 13.5pt; margin: 7mm 0 2.5mm; }
+h3 { font-size: 11pt; margin: 5mm 0 2mm; }
+h4 { font-size: 10pt; margin: 4mm 0 1.5mm; }
+
+p { margin: 0 0 2.6mm; orphans: 3; widows: 3; }
+ul, ol { margin: 0 0 3mm; padding-left: 5mm; }
+li { margin-bottom: 1.2mm; }
+li > p { margin: 0; }
+strong { color: var(--primario-oscuro); }
+hr { border: 0; border-top: 0.6pt solid var(--borde); margin: 4mm 0; }
+a { color: inherit; text-decoration: none; }
+
+code {
+  font-family: "DejaVu Sans Mono", Consolas, monospace;
+  font-size: 0.84em;
+  background: #f3f0e6;
+  border-radius: 2px;
+  padding: 0.05em 0.3em;
+  overflow-wrap: anywhere;
+}
+pre {
+  background: var(--fondo);
+  border: 0.6pt solid var(--borde);
+  border-radius: 4px;
+  padding: 3mm 4mm;
+  font-size: 7.6pt;
+  line-height: 1.45;
+  white-space: pre-wrap;
+  break-inside: avoid;
+}
+pre code { background: none; padding: 0; font-size: inherit; }
+
+blockquote {
+  margin: 0 0 3mm;
+  padding: 2mm 4mm;
+  border-left: 3pt solid var(--primario);
+  background: var(--fondo);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1mm 0 4mm;
+  font-size: 8.2pt;
+  line-height: 1.4;
+}
+thead { display: table-header-group; }
+tr { break-inside: avoid; }
+th, td {
+  text-align: left;
+  vertical-align: top;
+  padding: 1.6mm 2.2mm;
+  border-bottom: 0.6pt solid var(--borde);
+}
+thead th {
+  background: var(--primario-suave);
+  color: var(--primario-oscuro);
+  font-weight: 600;
+  border-bottom: 1pt solid var(--primario);
+}
+
+/* Figuras */
+figure { margin: 3mm 0 5mm; break-inside: avoid; }
+figure img {
+  display: block;
+  max-width: 100%;
+  border: 0.6pt solid var(--borde);
+  border-radius: 4px;
+}
+figcaption { margin-top: 1.5mm; font-size: 7.8pt; color: var(--texto-suave); font-style: italic; }
+.figura-ancha img { width: 100%; border: 0; }
+.figura-media img { width: 82%; }
+.pareja { display: flex; gap: 5mm; align-items: flex-start; break-inside: avoid; }
+.pareja figure { flex: 1 1 0; margin-top: 2mm; }
+.pareja figure.estrecha { flex: 0 0 26%; }
+
+.galeria { display: grid; grid-template-columns: 1fr 1fr; gap: 4mm 5mm; }
+.galeria figure { margin: 0; }
+.galeria img { width: auto; max-width: 100%; max-height: 78mm; }
+.id { white-space: nowrap; }
+
+/* Huecos que quedan por completar antes de entregar */
+.pendiente {
+  background: #fff1c4;
+  border-left: 3pt solid var(--acento);
+  padding: 2mm 4mm;
+  margin: 2mm 0 4mm;
+  color: #5c3d00;
+}
+span.pendiente { display: inline; padding: 0 1mm; border: 0; margin: 0; }
+.pendiente p:last-child { margin: 0; }
+
+/* Anexos: algo más compactos */
+h1.anexo { font-size: 19pt; }
+.anexo-cuerpo { font-size: 8.8pt; }
+.anexo-cuerpo h2 { font-size: 11.5pt; margin-top: 5mm; }
+.anexo-cuerpo table { font-size: 7.8pt; }
+
+/* Portada */
+.pagina-portada { margin: 0; }
+.portada {
+  height: 297mm;
+  padding: 34mm 24mm 22mm;
+  display: flex;
+  flex-direction: column;
+  background:
+    radial-gradient(circle at 90% 9%, rgba(140, 106, 31, 0.10) 0 34mm, transparent 34.2mm),
+    radial-gradient(circle at 70% 13%, rgba(59, 74, 44, 0.07) 0 20mm, transparent 20.2mm),
+    var(--fondo);
+  border-top: 9mm solid var(--primario-oscuro);
+}
+.portada__marca { display: flex; align-items: center; gap: 4mm; }
+.portada__marca img { width: 15mm; height: 15mm; }
+.portada__marca span { font-family: var(--titulos); font-size: 26pt; font-weight: 700; color: var(--primario-oscuro); letter-spacing: 0.02em; }
+.portada__antetitulo { margin: 30mm 0 3mm; font-size: 10pt; text-transform: uppercase; letter-spacing: 0.14em; color: var(--acento); font-weight: 600; }
+.portada__titulo { break-before: auto; border: 0; padding: 0; margin: 0 0 6mm; font-size: 40pt; line-height: 1.05; }
+.portada__subtitulo { font-size: 12.5pt; line-height: 1.5; color: var(--texto-suave); margin: 0; }
+.portada__datos { margin-top: auto; border-top: 1pt solid var(--borde); padding-top: 8mm; font-size: 10pt; }
+.portada__grupo { width: auto; margin: 6mm 0; font-size: 10pt; }
+.portada__grupo caption { text-align: left; font-size: 8pt; text-transform: uppercase; letter-spacing: 0.12em; color: var(--texto-suave); padding-bottom: 1.5mm; }
+.portada__grupo th { width: 9mm; color: var(--acento); padding-left: 0; }
+.portada__grupo td { padding-right: 0; }
+.portada__fecha { color: var(--texto-suave); margin: 0; }
+
+/* Índice */
+.indice__titulo { break-before: auto; margin-bottom: 3mm; font-size: 18pt; }
+.indice { list-style: none; padding: 0; margin: 0; }
+.indice li { display: flex; align-items: baseline; margin: 0; padding: 0.2mm 0; }
+.indice__nivel1 { font-weight: 600; color: var(--primario-oscuro); margin-top: 1mm !important; font-size: 9.4pt; }
+.indice__nivel2 { padding-left: 7mm !important; font-size: 8.8pt; color: var(--texto); }
+.indice__relleno { flex: 1; border-bottom: 0.8pt dotted #b9b4a2; margin: 0 2mm; transform: translateY(-1mm); }
+.indice__pagina { font-variant-numeric: tabular-nums; }
